@@ -1,3 +1,4 @@
 {
+  "name": "CASMI 2026 structure prediction",
   "install": "python3 -m pip install --upgrade pip && python3 -m pip install -r requirements.txt kaggle && mkdir -p data outputs artifacts ~/.kaggle && chmod 700 ~/.kaggle"
 }
