@@ -5,16 +5,28 @@
   "day_start_local": "01:00",
   "timezone": "America/Chicago",
   "best_public_score": 0.143,
+  "cloud_automation": {
+    "enabled": true,
+    "prompt_path": "agent/CLOUD_CYCLE_PROMPT.md",
+    "dashboard_url": "https://cursor.com/automations",
+    "secrets": ["KAGGLE_USERNAME", "KAGGLE_KEY"],
+    "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+    "last_runner": null
+  },
   "cycles": [
     {
       "day": "2026-09-15",
       "cycle": 1,
       "tag": "2026-09-15_cycle01",
+      "runner": "local",
       "submitted": true,
+      "skipped_reason": null,
       "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
       "kernel_version": 3,
+      "submit_ref": null,
       "message": "v0.2 ban-poisoned-exact-dup-IKs + entropy/modcos hybrid + all-libs",
       "prior_public_score": 0.143,
+      "public_score": null,
       "hypothesis": "H1+H2+H3",
       "artifacts": {
         "research": "Research/2026-09-15_cycle01_methods.md",

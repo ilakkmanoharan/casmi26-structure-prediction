@@ -4,3 +4,4 @@ pyarrow>=12
 rdkit>=2023.9
 tqdm>=4.65
 pytest>=7.0
+kaggle>=1.6
