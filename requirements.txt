@@ -1,0 +1,6 @@
+numpy>=1.23
+pandas>=1.5
+pyarrow>=12
+rdkit>=2023.9
+tqdm>=4.65
+pytest>=7.0

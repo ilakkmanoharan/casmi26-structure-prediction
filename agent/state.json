@@ -1,0 +1,27 @@
+{
+  "competition": "enveda-CASMI26-molecule-id-mass-spectra",
+  "daily_limit": 5,
+  "interval_minutes": 90,
+  "day_start_local": "01:00",
+  "timezone": "America/Chicago",
+  "best_public_score": 0.143,
+  "cycles": [
+    {
+      "day": "2026-09-15",
+      "cycle": 1,
+      "tag": "2026-09-15_cycle01",
+      "submitted": true,
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": 3,
+      "message": "v0.2 ban-poisoned-exact-dup-IKs + entropy/modcos hybrid + all-libs",
+      "prior_public_score": 0.143,
+      "hypothesis": "H1+H2+H3",
+      "artifacts": {
+        "research": "Research/2026-09-15_cycle01_methods.md",
+        "analysis": "Analysis/2026-09-15_cycle01_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-09-15_cycle01_hypotheses.md",
+        "spec": "Specs/2026-09-15_cycle01_next_submission_spec.md"
+      }
+    }
+  ]
+}
