@@ -55,26 +55,28 @@ PY
 
 Notebook: https://www.kaggle.com/code/ilakkmanoharan/casmi26-retrieval-symbolic-v01
 
-## Cloud Automations (laptop off)
+## Unattended daily submits (laptop off)
 
-Primary daily loop runs on **Cursor Cloud Automations** so submissions continue when this machine is off.
+Primary path is **GitHub Actions** (same as Kaggriculture / Adaptive-Farm-Agent), not Cursor Cloud Automations.
 
-### One-time UI setup
+Full write-up: [`agent/how-github-submits-work.md`](agent/how-github-submits-work.md).
 
-1. Connect GitHub to Cursor (Cloud Agents can clone this repo).
-2. Open [cursor.com/automations](https://cursor.com/automations) → create automation.
-3. **Trigger:** scheduled / cron for competition day slots after **01:00 America/Chicago** every ~90 minutes (five slots; see [`agent/CLOUD_CYCLE_PROMPT.md`](agent/CLOUD_CYCLE_PROMPT.md) for UTC examples).
-4. **Repository:** select `ilakkmanoharan/casmi26-structure-prediction` (required — cron defaults to no repo).
-5. **Prompt:** instruct the agent to follow [`agent/CLOUD_CYCLE_PROMPT.md`](agent/CLOUD_CYCLE_PROMPT.md) end-to-end (research → analysis → hypothesis → spec → implement → Kaggle code submit → update `agent/state.json` → commit/push).
-6. **Secrets** (Cloud Agents / environment): `KAGGLE_USERNAME`, `KAGGLE_KEY`.
+### One-time setup
 
-Repo Cloud env install: [`.cursor/environment.json`](.cursor/environment.json).
-
-### Local fallback
+1. Repo on GitHub with Actions enabled.
+2. [Settings → Secrets → Actions](https://github.com/ilakkmanoharan/casmi26-structure-prediction/settings/secrets/actions): add `KAGGLE_USERNAME`, `KAGGLE_KEY`, and preferably `OPENAI_API_KEY`.
+3. **Actions → casmi-loop → Run workflow** once to verify.
+4. Hourly cron runs `scripts/casmi_loop/orchestrate.py`; after 5 Chicago competition-day submits, later hours no-op.
 
 ```bash
-PYTHONPATH=. python agent/run_daily_loop.py
-PYTHONPATH=. python agent/run_cycle.py
+# Manual / local one slot
+PYTHONPATH=. python3 scripts/casmi_loop/orchestrate.py --slot 1
+PYTHONPATH=. python3 scripts/casmi_loop/orchestrate.py --skip-submit   # docs+code only
 ```
+
+### Optional
+
+- Cursor Automations + [`agent/CLOUD_CYCLE_PROMPT.md`](agent/CLOUD_CYCLE_PROMPT.md) if you want an alternate agent runner.
+- Local scaffolding: `python agent/run_daily_loop.py` / `python agent/run_cycle.py`
 
 State schema: [`agent/state.schema.md`](agent/state.schema.md). Artifact folders: `Research/`, `Analysis/`, `Hypothesis analysis/`, `Specs/`.

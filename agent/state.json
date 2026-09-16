@@ -1,15 +1,29 @@
 {
   "competition": "enveda-CASMI26-molecule-id-mass-spectra",
   "daily_limit": 5,
-  "interval_minutes": 90,
+  "interval_minutes": 60,
   "day_start_local": "01:00",
   "timezone": "America/Chicago",
   "best_public_score": 0.143,
-  "cloud_automation": {
+  "github_actions": {
     "enabled": true,
+    "primary_runner": true,
+    "workflow": ".github/workflows/casmi-loop.yml",
+    "secrets": [
+      "OPENAI_API_KEY",
+      "KAGGLE_USERNAME",
+      "KAGGLE_KEY"
+    ],
+    "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01"
+  },
+  "cloud_automation": {
+    "enabled": false,
     "prompt_path": "agent/CLOUD_CYCLE_PROMPT.md",
     "dashboard_url": "https://cursor.com/automations",
-    "secrets": ["KAGGLE_USERNAME", "KAGGLE_KEY"],
+    "secrets": [
+      "KAGGLE_USERNAME",
+      "KAGGLE_KEY"
+    ],
     "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
     "last_runner": null
   },

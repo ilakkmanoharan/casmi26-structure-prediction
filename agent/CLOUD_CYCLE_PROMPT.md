@@ -1,6 +1,8 @@
 # CASMI 2026 — Cloud daily cycle prompt
 
-Use this file as the **Cursor Cloud Automation** prompt body (laptop-off runner).
+Optional **Cursor Cloud Automation** prompt. Prefer the GitHub Actions loop
+(`.github/workflows/casmi-loop.yml` + `scripts/casmi_loop/orchestrate.py`) for
+everyday laptop-off submits — see `agent/how-github-submits-work.md`.
 Local copy of the workflow in `private/agent/agent1.md` (that path is gitignored).
 
 ## Mission

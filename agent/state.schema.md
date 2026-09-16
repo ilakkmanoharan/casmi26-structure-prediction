@@ -1,6 +1,6 @@
 # `agent/state.json` schema (documentation)
 
-Committed state for the daily CASMI agent. Cloud Automations and local runners both update this file.
+Committed state for the daily CASMI agent. GitHub Actions (`casmi-loop`) is the primary laptop-off updater.
 
 ## Top-level fields
 
@@ -8,23 +8,34 @@ Committed state for the daily CASMI agent. Cloud Automations and local runners b
 |-------|------|-------------|
 | `competition` | string | Kaggle competition slug |
 | `daily_limit` | number | Max submissions per competition day (5) |
-| `interval_minutes` | number | Minutes between cycles (90) |
+| `interval_minutes` | number | Minutes between cycles (60 for Actions hourly cron) |
 | `day_start_local` | string | Local day-start clock (`01:00`) |
 | `timezone` | string | IANA TZ (`America/Chicago`) |
 | `best_public_score` | number \| null | Best observed public LB score |
-| `cloud_automation` | object \| null | Optional Cloud Automations metadata |
+| `github_actions` | object \| null | Primary unattended runner metadata |
+| `cloud_automation` | object \| null | Optional Cursor Automations metadata |
 | `cycles` | array | Append-only cycle records |
+
+## `github_actions` (primary)
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `enabled` | boolean | Whether GitHub Actions is enabled |
+| `primary_runner` | boolean | Prefer Actions over Cursor Automations |
+| `workflow` | string | `.github/workflows/casmi-loop.yml` |
+| `secrets` | string[] | `OPENAI_API_KEY`, `KAGGLE_USERNAME`, `KAGGLE_KEY` |
+| `kernel` | string | Default Kaggle kernel `owner/slug` |
 
 ## `cloud_automation` (optional)
 
 | Field | Type | Description |
 |-------|------|-------------|
-| `enabled` | boolean | Whether laptop-off Cloud Automations is the primary runner |
+| `enabled` | boolean | Alternate Cursor Automations runner (usually false) |
 | `prompt_path` | string | Tracked prompt, usually `agent/CLOUD_CYCLE_PROMPT.md` |
 | `dashboard_url` | string | `https://cursor.com/automations` |
 | `secrets` | string[] | Expected secret names (`KAGGLE_USERNAME`, `KAGGLE_KEY`) |
 | `kernel` | string | Default Kaggle kernel `owner/slug` |
-| `last_runner` | string | `cursor_cloud` \| `local` \| `manual` |
+| `last_runner` | string | `github_actions` \| `cursor_cloud` \| `local` \| `manual` |
 
 ## Each `cycles[]` entry
 
@@ -34,7 +45,7 @@ Committed state for the daily CASMI agent. Cloud Automations and local runners b
 | `cycle` | number | 1-based cycle index for that day |
 | `tag` | string | `YYYY-MM-DD_cycleNN` |
 | `started_at` | string | ISO-8601 timestamp (optional) |
-| `runner` | string | `cursor_cloud` \| `local` \| `manual` |
+| `runner` | string | `github_actions` \| `cursor_cloud` \| `local` \| `manual` |
 | `submitted` | boolean | Whether a Kaggle code submission was created |
 | `skipped_reason` | string \| null | e.g. `quota_exhausted` |
 | `kernel` | string | Kaggle kernel slug |

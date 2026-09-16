@@ -15,37 +15,38 @@ Improve the public MRR@25 for **enveda-CASMI26-molecule-id-mass-spectra** under 
 
 ## Laptop-off runner (primary)
 
-**Cursor Cloud Automations** — [cursor.com/automations](https://cursor.com/automations)
+**GitHub Actions** — same pattern as Adaptive-Farm-Agent / Kaggriculture.
 
-1. Connect GitHub so Cloud Agents can clone `ilakkmanoharan/casmi26-structure-prediction`.
-2. Create an automation with a **scheduled/cron** trigger and **this repository** selected (cron defaults to no repo — override that).
-3. Prompt: follow [`agent/CLOUD_CYCLE_PROMPT.md`](../../agent/CLOUD_CYCLE_PROMPT.md) (paste or `@` that file).
-4. Secrets (Cloud Agents dashboard): `KAGGLE_USERNAME`, `KAGGLE_KEY`.
-5. Schedule five slots after 01:00 America/Chicago (see prompt for UTC cron examples). Agent must still check quota before each submit.
+1. Workflow: [`.github/workflows/casmi-loop.yml`](../../../.github/workflows/casmi-loop.yml) (hourly UTC cron).
+2. Orchestrator: `python3 scripts/casmi_loop/orchestrate.py`
+3. Secrets (repo → Settings → Secrets → Actions): `KAGGLE_USERNAME`, `KAGGLE_KEY`, optional `OPENAI_API_KEY`.
+4. After 5 Chicago competition-day submits, later hours no-op.
+5. Details: [`agent/how-github-submits-work.md`](../../agent/how-github-submits-work.md)
 
-Environment install is defined in [`.cursor/environment.json`](../environment.json).
+**Cursor Cloud Automations** are optional; do not rely on them for everyday submits.
 
 ## Laptop-on fallback
 
 ```bash
-PYTHONPATH=. python agent/run_daily_loop.py          # blocks, respects schedule
-PYTHONPATH=. python agent/run_cycle.py --cycle N     # one cycle immediately
+PYTHONPATH=. python3 scripts/casmi_loop/orchestrate.py --slot 1
+PYTHONPATH=. python agent/run_daily_loop.py          # local scaffolding loop
+PYTHONPATH=. python agent/run_cycle.py --cycle N
 ```
 
 ## Schedule
 
 - **Day start:** 01:00 America/Chicago (CST/CDT)
-- **Cadence:** every **90 minutes**
-- **Stop when:** 5 submissions already made for the competition day, or day ends
+- **Cadence:** GitHub hourly cron; script takes next unused slot 1–5
+- **Stop when:** 5 submissions already made for the competition day
 
 ## One cycle (mandatory order)
 
-1. **Research** — web/papers on MS/MS ID methods; write `Research/YYYY-MM-DD_cycleNN_methods.md`
-2. **Analysis** — pull Kaggle submission logs/scores + evidence; write `Analysis/YYYY-MM-DD_cycleNN_submission.md`
-3. **Hypothesis** — combine Research+Analysis into `Hypothesis analysis/YYYY-MM-DD_cycleNN_hypotheses.md`
-4. **Spec** — actionable next-submission plan in `Specs/YYYY-MM-DD_cycleNN_next_submission_spec.md`
-5. **Implement + submit** — change one major factor; push Kaggle notebook (`enable_internet: false`); submit with `competition_submit_code`
-6. **Record** — append row to `agent/state.json` (see `agent/state.schema.md`); commit/push artifacts
+1. **Research** — write `Research/YYYY-MM-DD_cycleNN_methods.md`
+2. **Analysis** — write `Analysis/YYYY-MM-DD_cycleNN_submission.md`
+3. **Hypothesis** — write `Hypothesis analysis/YYYY-MM-DD_cycleNN_hypotheses.md`
+4. **Spec** — write `Specs/YYYY-MM-DD_cycleNN_next_submission_spec.md`
+5. **Implement + submit** — one config ablation; rebuild `kaggle_kernel/`; `kernels push` + `competition_submit_code`
+6. **Record** — append row to `agent/state.json`; commit/push artifacts
 
 ## Hard constraints
 

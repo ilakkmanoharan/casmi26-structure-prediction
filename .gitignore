@@ -3,7 +3,6 @@ data/
 outputs/
 artifacts/
 kaggle_dataset_rdkit/
-kaggle_kernel/
 __pycache__/
 *.py[cod]
 .Python

@@ -1,0 +1,107 @@
+# Five CASMI code-submits/day while this machine is off.
+# Fires every hour UTC; the script no-ops after 5 Chicago competition-day uploads.
+name: casmi-loop
+
+on:
+  schedule:
+    - cron: "0 * * * *"
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: "Slot 1–5 (empty = next unused)"
+        required: false
+      date:
+        description: "YYYY-MM-DD competition day (empty = today Chicago)"
+        required: false
+      skip_submit:
+        description: "Set to 1 to write docs/code but not upload"
+        required: false
+        default: "0"
+
+concurrency:
+  group: casmi-loop
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  slot:
+    runs-on: ubuntu-latest
+    # Kernel runs on Kaggle can take hours; poll until complete then submit_code.
+    timeout-minutes: 360
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: true
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install loop deps
+        run: |
+          pip install "kaggle==1.7.4.5" || pip install "kaggle>=1.6.17,<2"
+
+      - name: Require Action secrets
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+        run: |
+          missing=""
+          [ -n "$KAGGLE_USERNAME" ] || missing="$missing KAGGLE_USERNAME"
+          [ -n "$KAGGLE_KEY" ] || missing="$missing KAGGLE_KEY"
+          if [ -n "$missing" ]; then
+            echo "::error::Missing GitHub Actions secrets:$missing"
+            echo "Add them at https://github.com/ilakkmanoharan/casmi26-structure-prediction/settings/secrets/actions"
+            exit 1
+          fi
+          if [ -z "$OPENAI_API_KEY" ]; then
+            echo "::warning::OPENAI_API_KEY missing; using deterministic fallback ablations"
+          else
+            echo "OPENAI_API_KEY present (value not printed)."
+          fi
+          echo "Required Kaggle secrets are present (values not printed)."
+
+      - name: Kaggle credentials
+        run: |
+          mkdir -p "$HOME/.kaggle"
+          printf '%s\n' "{\"username\":\"$KAGGLE_USERNAME\",\"key\":\"$KAGGLE_KEY\"}" > "$HOME/.kaggle/kaggle.json"
+          printf '%s\n' "$KAGGLE_KEY" > "$HOME/.kaggle/access_token"
+          chmod 600 "$HOME/.kaggle/kaggle.json" "$HOME/.kaggle/access_token"
+        env:
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+
+      - name: Run one slot
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
+          KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_KEY }}
+          CASMI_LOOP_PUSH: "1"
+          CASMI_LOOP_REPO_URL: https://github.com/ilakkmanoharan/casmi26-structure-prediction
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TZ: America/Chicago
+          SLOT_INPUT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.slot || '' }}
+          DATE_INPUT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.date || '' }}
+          SKIP_SUBMIT_INPUT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_submit || '' }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          ARGS=()
+          if [ -n "${SLOT_INPUT:-}" ]; then
+            ARGS+=(--slot "$SLOT_INPUT")
+          fi
+          if [ -n "${DATE_INPUT:-}" ]; then
+            ARGS+=(--date "$DATE_INPUT")
+          fi
+          if [ "${SKIP_SUBMIT_INPUT:-}" = "1" ]; then
+            ARGS+=(--skip-submit)
+          fi
+          python3 scripts/casmi_loop/orchestrate.py "${ARGS[@]}"
