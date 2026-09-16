@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 import time
 from typing import Any
@@ -68,38 +69,107 @@ def kernels_push() -> dict[str, Any]:
     return {"ok": True, "output": out[-2000:]}
 
 
-def wait_kernel_complete(*, timeout_sec: int = 5 * 3600, poll_sec: int = 60) -> dict[str, Any]:
+DONE_STATES = ("COMPLETE", "COMPLETED", "SUCCESS")
+FAIL_STATES = ("ERROR", "FAILED", "CANCELLED", "CANCELED", "CANCEL_REQUESTED", "CANCEL_ACKNOWLEDGED")
+ACTIVE_STATES = ("QUEUED", "RUNNING", "PENDING", "STARTING")
+
+
+def _status_text(status: Any) -> str:
+    """Normalize Kaggle status (enum, dict, or response object) to a bare word."""
+    raw = None
+    for getter in (
+        lambda: getattr(status, "status", None),
+        lambda: status.get("status") if isinstance(status, dict) else None,
+        lambda: getattr(status, "_status", None),
+    ):
+        raw = getter()
+        if raw is not None:
+            break
+    if raw is None:
+        return ""
+    # Enums stringify as 'KernelWorkerStatus.ERROR'; prefer .name.
+    text = str(getattr(raw, "name", raw))
+    return text.rsplit(".", 1)[-1].strip().upper()
+
+
+def _failure_message(status: Any) -> str | None:
+    for attr in ("failure_message", "failureMessage", "_failure_message"):
+        val = getattr(status, attr, None)
+        if val:
+            return str(val)
+    return None
+
+
+def kernel_log_tail(lines: int = 25) -> str:
+    """Best-effort tail of the kernel log, for diagnosing a failed run."""
+    import json
+    import tempfile
+    from pathlib import Path
+
     api = authenticate()
-    deadline = time.time() + timeout_sec
-    last = {}
+    try:
+        with tempfile.TemporaryDirectory() as tmp:
+            api.kernels_output(KERNEL, path=tmp)
+            logs = list(Path(tmp).glob("*.log"))
+            if not logs:
+                return "(no kernel log found)"
+            rows = json.loads(logs[0].read_text(encoding="utf-8"))
+            texts = [str(r.get("data", "")).rstrip() for r in rows]
+            return "\n".join(t for t in texts[-lines:] if t)
+    except Exception as exc:
+        return "(could not read kernel log: %s)" % exc
+
+
+def wait_kernel_complete(
+    *,
+    timeout_sec: int | None = None,
+    poll_sec: int = 60,
+    stale_guard_sec: int = 600,
+) -> dict[str, Any]:
+    """Poll until the kernel finishes.
+
+    A terminal status seen before the new version starts is the *previous*
+    run, so ignore terminal states until we observe an active one or
+    stale_guard_sec elapses.
+    """
+    if timeout_sec is None:
+        timeout_sec = int(os.environ.get("CASMI_KERNEL_TIMEOUT_SEC", 5 * 3600))
+    api = authenticate()
+    started = time.time()
+    deadline = started + timeout_sec
+    seen_active = False
+    state_s = ""
+
     while time.time() < deadline:
         try:
             status = api.kernels_status(KERNEL)
-            if hasattr(status, "__dict__"):
-                last = dict(status.__dict__)
-            elif isinstance(status, dict):
-                last = status
-            else:
-                last = {"raw": str(status)}
-            # common fields: status / hasStatus / failureMessage
-            state = (
-                last.get("status")
-                or last.get("hasStatus")
-                or getattr(status, "status", None)
-                or ""
-            )
-            state_s = str(state).upper()
-            print("kernel status", state_s)
-            if state_s in ("COMPLETE", "COMPLETED", "SUCCESS"):
-                return {"status": state_s, "detail": last}
-            if state_s in ("ERROR", "FAILED", "CANCELLED", "CANCELED"):
-                raise SystemExit("kernel failed: %s" % last)
+            state_s = _status_text(status)
+            elapsed = int(time.time() - started)
+            print("kernel status %s (%ss)" % (state_s or "UNKNOWN", elapsed))
+
+            if state_s in ACTIVE_STATES:
+                seen_active = True
+            elif state_s in DONE_STATES:
+                if seen_active or elapsed >= stale_guard_sec:
+                    return {"status": state_s, "elapsed_sec": elapsed}
+                print("ignoring stale COMPLETE from previous version")
+            elif state_s in FAIL_STATES:
+                if seen_active or elapsed >= stale_guard_sec:
+                    detail = _failure_message(status) or "(no failureMessage)"
+                    raise SystemExit(
+                        "kernel %s: %s\n--- kernel log tail ---\n%s"
+                        % (state_s, detail, kernel_log_tail())
+                    )
+                print("ignoring stale %s from previous version" % state_s)
         except SystemExit:
             raise
         except Exception as exc:
             print("status poll error:", exc)
         time.sleep(poll_sec)
-    raise SystemExit("kernel poll timed out after %ss last=%s" % (timeout_sec, last))
+
+    raise SystemExit(
+        "kernel poll timed out after %ss (last status %s)" % (timeout_sec, state_s or "UNKNOWN")
+    )
 
 
 def competition_submit_code(message: str) -> dict[str, Any]:

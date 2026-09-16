@@ -19,6 +19,35 @@ MODULE_ORDER = [
 ]
 
 
+# Kernel runs with internet off, so RDKit comes from the attached wheels dataset.
+INSTALL_CELL = """import sys, subprocess
+from pathlib import Path
+
+WHEELS = Path('/kaggle/input/rdkit-cp312-wheels-casmi26')
+if not WHEELS.is_dir():
+    hits = [p for p in Path('/kaggle/input').glob('*/rdkit-*.whl')]
+    assert hits, 'rdkit wheels dataset not attached'
+    WHEELS = hits[0].parent
+print('wheels', sorted(p.name for p in WHEELS.glob('*.whl')))
+
+def pip_offline(*args):
+    subprocess.run(
+        [sys.executable, '-m', 'pip', 'install', '--no-index',
+         '--find-links', str(WHEELS), *args],
+        check=True,
+    )
+
+try:
+    import rdkit  # already present?
+except ModuleNotFoundError:
+    pip_offline('rdkit')
+
+import rdkit
+from rdkit import Chem
+print('rdkit', Chem.rdBase.rdkitVersion)
+"""
+
+
 def _embed_cell(sources: dict[str, str]) -> str:
     parts = [
         "import sys, os, time, json, random, types",
@@ -152,6 +181,13 @@ def rebuild_kernel(*, title: str = "CASMI loop submission") -> Path:
                     "\n",
                     "Internet **off**. Output: `submission.csv`.\n",
                 ],
+            },
+            {
+                "cell_type": "code",
+                "execution_count": None,
+                "metadata": {},
+                "outputs": [],
+                "source": INSTALL_CELL.splitlines(keepends=True),
             },
             {
                 "cell_type": "code",
