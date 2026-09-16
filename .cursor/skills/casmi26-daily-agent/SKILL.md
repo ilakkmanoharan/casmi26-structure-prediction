@@ -23,6 +23,8 @@ Improve the public MRR@25 for **enveda-CASMI26-molecule-id-mass-spectra** under 
 4. After 5 Chicago competition-day submits, later hours no-op.
 5. Details: [`agent/how-github-submits-work.md`](../../agent/how-github-submits-work.md)
 
+**Grok Bot (agent1 steps 1–3):** enable [`casmi26-grok-research`](../casmi26-grok-research/SKILL.md) so the Bot writes `Research/`, `Analysis/`, `Hypothesis analysis/` every ~90 minutes, pushes, then dispatches Actions for implement+submit. Use [`casmi26-grok-watchdog`](../casmi26-grok-watchdog/SKILL.md) for failure recovery.
+
 **Cursor Cloud Automations** are optional; do not rely on them for everyday submits.
 
 ## Laptop-on fallback

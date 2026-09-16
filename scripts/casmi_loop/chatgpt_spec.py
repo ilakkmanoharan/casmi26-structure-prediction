@@ -81,6 +81,34 @@ def _openai_json(user: str) -> dict[str, Any] | None:
     return json.loads(text)
 
 
+def _substantial(path: Path, min_chars: int = 400) -> bool:
+    if not path.is_file():
+        return False
+    text = path.read_text(encoding="utf-8").strip()
+    if len(text) < min_chars:
+        return False
+    # Ignore empty stubs from older scaffolding.
+    if "(filled by agent cycle)" in text and len(text) < 200:
+        return False
+    return True
+
+
+def _parse_patch_from_spec(spec_text: str) -> dict[str, Any]:
+    """Best-effort extract config_patch JSON from a Spec markdown file."""
+    import re
+
+    m = re.search(r"config_patch\s*[:=]\s*(\{.*?\})", spec_text, flags=re.S | re.I)
+    if not m:
+        m = re.search(r"```json\s*(\{.*?\})\s*```", spec_text, flags=re.S)
+    if not m:
+        return {}
+    try:
+        obj = json.loads(m.group(1))
+        return obj if isinstance(obj, dict) else {}
+    except json.JSONDecodeError:
+        return {}
+
+
 def write_cycle_docs(
     *,
     day: date,
@@ -91,6 +119,45 @@ def write_cycle_docs(
     tag = tag_for(day, slot)
     for name in ("Research", "Analysis", "Hypothesis analysis", "Specs"):
         (ROOT / name).mkdir(parents=True, exist_ok=True)
+
+    paths = {
+        "research": ROOT / "Research" / ("%s_methods.md" % tag),
+        "analysis": ROOT / "Analysis" / ("%s_submission.md" % tag),
+        "hypothesis": ROOT / "Hypothesis analysis" / ("%s_hypotheses.md" % tag),
+        "spec": ROOT / "Specs" / ("%s_next_submission_spec.md" % tag),
+    }
+
+    # Prefer Grok Bot / human docs already on main (agent1 steps 1–3).
+    if (
+        _substantial(paths["research"])
+        and _substantial(paths["analysis"])
+        and _substantial(paths["hypothesis"])
+    ):
+        spec_text = (
+            paths["spec"].read_text(encoding="utf-8")
+            if paths["spec"].is_file()
+            else ""
+        )
+        patch = _parse_patch_from_spec(spec_text)
+        if not patch:
+            fb = FALLBACK_ABLATIONS[(slot - 1) % len(FALLBACK_ABLATIONS)]
+            patch = fb.get("config_patch") or {}
+            if not spec_text.strip():
+                paths["spec"].write_text(
+                    "# Spec %s\n\nReuse Grok Research/Analysis/Hypothesis.\n\n"
+                    "config_patch: %s\n" % (tag, json.dumps(patch)),
+                    encoding="utf-8",
+                )
+        print("reusing pre-written cycle docs for", tag)
+        return {
+            "tag": tag,
+            "hypothesis_id": "H-grok",
+            "message": "%s grok-docs" % tag,
+            "config_patch": patch,
+            "domain_prior_boost": None,
+            "artifacts": {k: str(v.relative_to(ROOT)) for k, v in paths.items()},
+            "notes": "reused_prewritten_docs",
+        }
 
     plan = _openai_json(
         "Plan next CASMI submission slot.\n"
@@ -123,12 +190,6 @@ def write_cycle_docs(
             "notes": "openai_missing_fallback",
         }
 
-    paths = {
-        "research": ROOT / "Research" / ("%s_methods.md" % tag),
-        "analysis": ROOT / "Analysis" / ("%s_submission.md" % tag),
-        "hypothesis": ROOT / "Hypothesis analysis" / ("%s_hypotheses.md" % tag),
-        "spec": ROOT / "Specs" / ("%s_next_submission_spec.md" % tag),
-    }
     paths["research"].write_text(str(plan.get("research_md") or "# Research\n"), encoding="utf-8")
     paths["analysis"].write_text(str(plan.get("analysis_md") or "# Analysis\n"), encoding="utf-8")
     paths["hypothesis"].write_text(
