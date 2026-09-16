@@ -97,8 +97,12 @@ def write_cycle_docs(
         "Date=%s slot=%s/5 prior_public_score=%s\n\n"
         "Briefing from Kaggle submissions:\n%s\n\n"
         "Return JSON keys: research_md, analysis_md, hypothesis_md, spec_md, "
-        "hypothesis_id, message, config_patch (object of casmi26/config.py CONSTANT "
-        "names to new numeric/bool values), notes."
+        "hypothesis_id, message, config_patch (object of EXISTING casmi26/config.py "
+        "CONSTANT names only — allowed: MASS_TOL_PPM, MASS_TOL_PPM_BACKFILL, "
+        "PEAK_MZ_TOL, TOP_PEAKS, INTENSITY_FLOOR, TOP_K_SPECTRA_PER_QUERY, "
+        "TOP_CANDIDATES_PER_SPECTRUM, MIN_SIMILARITY, ENTROPY_WEIGHT, "
+        "EXCLUDE_EXACT_DUPLICATES, MAX_CANDIDATES — numeric/bool values), notes. "
+        "Do not invent new constant names."
         % (day.isoformat(), slot, prior_score, briefing[:12000])
     )
     if plan is None:

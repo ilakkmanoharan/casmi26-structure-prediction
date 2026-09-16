@@ -81,4 +81,13 @@ GitHub cron (top of hour UTC)
 2. [Kaggle Submissions](https://www.kaggle.com/competitions/enveda-CASMI26-molecule-id-mass-spectra/submissions)
 3. New cycle markdown under `Research/` / `Analysis/` / … and updates to `agent/state.json` on `main`
 
+## Grok Bot watchdog (optional)
+
+Grok Bot does **not** replace Actions. It watches health and clicks **Run workflow** when needed.
+
+1. Enable skill [`.cursor/skills/casmi26-grok-watchdog/SKILL.md`](../.cursor/skills/casmi26-grok-watchdog/SKILL.md) on a Grok Bot.
+2. Connect GitHub (`gh` / plugin) on the Bot computer.
+3. Create a routine (every ~90 min during competition morning) using that skill.
+4. Helper script: `python3 scripts/casmi_loop/check_and_dispatch.py [--dispatch]`
+
 Cursor Automations remain an optional alternate; **GitHub Actions is the primary unattended runner**.

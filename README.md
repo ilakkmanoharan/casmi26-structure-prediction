@@ -76,6 +76,7 @@ PYTHONPATH=. python3 scripts/casmi_loop/orchestrate.py --skip-submit   # docs+co
 
 ### Optional
 
+- **Grok Bot watchdog** — skill [`.cursor/skills/casmi26-grok-watchdog/SKILL.md`](.cursor/skills/casmi26-grok-watchdog/SKILL.md) checks Actions and runs `python3 scripts/casmi_loop/check_and_dispatch.py --dispatch` when a slot was missed or the last run failed. Schedule a Bot routine every ~90 minutes; it does not replace the hourly cron.
 - Cursor Automations + [`agent/CLOUD_CYCLE_PROMPT.md`](agent/CLOUD_CYCLE_PROMPT.md) if you want an alternate agent runner.
 - Local scaffolding: `python agent/run_daily_loop.py` / `python agent/run_cycle.py`
 
