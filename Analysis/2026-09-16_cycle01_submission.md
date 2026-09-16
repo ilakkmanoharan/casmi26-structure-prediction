@@ -47,3 +47,11 @@ From `Analysis/2026-09-15_cycle01_submission.md` / local `outputs/candidate_evid
 ## Naive baselines (local, not LB)
 
 Mass-only known-spectrum CV MRR@25 ≈ 0.73 — only meaningful when labels match GT; not comparable under contamination.
+
+## Cycle outcome (this Cloud Agent)
+
+- Docs + `ENTROPY_WEIGHT=0.70` + kernel ERROR poller + RDKit wheel bootstrap implemented; **26** unit tests passed.
+- `~/.kaggle/kaggle.json` could **not** be written: process env has no `KAGGLE_USERNAME` / `KAGGLE_KEY` (GitHub Actions has them; this Cursor Automation does not).
+- Therefore **no** `kaggle kernels push` and **no** `competition_submit_code` from this run. Quota remains **0/5** used for 2026-09-16 based on state + last Actions snapshot (do not treat this as a scored skip-for-quota).
+- `gh workflow run` on this branch returned **403** (integration cannot dispatch). Hourly `casmi-loop` on `main` is still the laptop-off submit path; it will pick up these files after merge.
+- Add `KAGGLE_USERNAME` and `KAGGLE_KEY` to the Cursor Automation secrets if this cron should submit without waiting for Actions.
