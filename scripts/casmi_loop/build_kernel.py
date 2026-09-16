@@ -7,6 +7,39 @@ from pathlib import Path
 
 from .config import KERNEL_DIR, PACKAGE_DIR, ROOT
 
+RDKIT_BOOTSTRAP = """import sys, subprocess
+from pathlib import Path
+
+def _ensure_rdkit():
+    try:
+        import rdkit  # noqa: F401
+        return
+    except Exception:
+        pass
+    inp = Path('/kaggle/input')
+    links = []
+    if inp.exists():
+        for whl in inp.rglob('*.whl'):
+            parent = str(whl.parent)
+            if parent not in links:
+                links.append(parent)
+        for d in inp.iterdir():
+            if d.is_dir() and 'rdkit' in d.name.lower():
+                p = str(d)
+                if p not in links:
+                    links.append(p)
+    if not links:
+        raise RuntimeError('rdkit missing and no local wheels under /kaggle/input')
+    cmd = [sys.executable, '-m', 'pip', 'install', '--no-index', '--no-deps']
+    for link in links:
+        cmd.extend(['--find-links', link])
+    cmd.append('rdkit')
+    print('installing rdkit from local wheels', links)
+    subprocess.check_call(cmd)
+
+_ensure_rdkit()
+"""
+
 MODULE_ORDER = [
     "adducts",
     "chemistry",
@@ -19,8 +52,21 @@ MODULE_ORDER = [
 ]
 
 
+def _code_cell(source: str, cell_id: str) -> dict:
+    text = source if source.endswith("\n") else source + "\n"
+    return {
+        "cell_type": "code",
+        "execution_count": None,
+        "id": cell_id,
+        "metadata": {},
+        "outputs": [],
+        "source": text.splitlines(keepends=True),
+    }
+
+
 def _embed_cell(sources: dict[str, str]) -> str:
     parts = [
+        RDKIT_BOOTSTRAP.rstrip(),
         "import sys, os, time, json, random, types",
         "from pathlib import Path",
         "import numpy as np, pandas as pd, pyarrow, pyarrow.parquet as pq",
@@ -144,6 +190,7 @@ def rebuild_kernel(*, title: str = "CASMI loop submission") -> Path:
         "cells": [
             {
                 "cell_type": "markdown",
+                "id": "casmi-md",
                 "metadata": {},
                 "source": [
                     "# Enveda CASMI 2026 — Retrieval + Symbolic\n",
@@ -153,20 +200,8 @@ def rebuild_kernel(*, title: str = "CASMI loop submission") -> Path:
                     "Internet **off**. Output: `submission.csv`.\n",
                 ],
             },
-            {
-                "cell_type": "code",
-                "execution_count": None,
-                "metadata": {},
-                "outputs": [],
-                "source": _embed_cell(sources).splitlines(keepends=True),
-            },
-            {
-                "cell_type": "code",
-                "execution_count": None,
-                "metadata": {},
-                "outputs": [],
-                "source": INFER_CELL.splitlines(keepends=True),
-            },
+            _code_cell(_embed_cell(sources), "casmi-embed"),
+            _code_cell(INFER_CELL, "casmi-infer"),
         ],
     }
     code_file = "casmi26-first-submission.ipynb"

@@ -88,6 +88,7 @@ jobs:
           CASMI_LOOP_REPO_URL: https://github.com/ilakkmanoharan/casmi26-structure-prediction
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TZ: America/Chicago
+          PYTHONUNBUFFERED: "1"
           SLOT_INPUT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.slot || '' }}
           DATE_INPUT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.date || '' }}
           SKIP_SUBMIT_INPUT: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.skip_submit || '' }}
