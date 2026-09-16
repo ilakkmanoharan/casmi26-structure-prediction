@@ -3,11 +3,43 @@
 from __future__ import annotations
 
 import json
+import re
 import subprocess
 import time
 from typing import Any
 
 from .config import COMPETITION, KERNEL, KERNEL_DIR
+
+# Token → canonical status. Substring match on "COMPLETE" is unsafe (INCOMPLETE).
+_STATUS_ALIASES = {
+    "COMPLETE": "COMPLETE",
+    "COMPLETED": "COMPLETE",
+    "SUCCESS": "COMPLETE",
+    "ERROR": "ERROR",
+    "FAILED": "ERROR",
+    "FAILURE": "ERROR",
+    "CANCELLED": "CANCELLED",
+    "CANCELED": "CANCELLED",
+    "RUNNING": "RUNNING",
+    "QUEUED": "QUEUED",
+    "PENDING": "QUEUED",
+}
+
+
+def normalize_kernel_status(raw: Any) -> str:
+    """Map Kaggle worker enums to a short status token.
+
+    The API often returns ``KernelWorkerStatus.ERROR`` / ``KERNELWORKERSTATUS.ERROR``
+    rather than the bare string ``ERROR``. Matching only the latter burned a 5 h
+    poll on 2026-09-15 cycle02 (kernel v4).
+    """
+    text = str(raw or "")
+    tokens = re.findall(r"[A-Z]+", text.upper())
+    for token in tokens:
+        if token in _STATUS_ALIASES:
+            return _STATUS_ALIASES[token]
+    stripped = text.strip().upper()
+    return stripped or "UNKNOWN"
 
 
 def authenticate() -> Any:
@@ -84,15 +116,17 @@ def wait_kernel_complete(*, timeout_sec: int = 5 * 3600, poll_sec: int = 60) -> 
             # common fields: status / hasStatus / failureMessage
             state = (
                 last.get("status")
+                or last.get("_status")
                 or last.get("hasStatus")
                 or getattr(status, "status", None)
+                or getattr(status, "_status", None)
                 or ""
             )
-            state_s = str(state).upper()
-            print("kernel status", state_s)
-            if state_s in ("COMPLETE", "COMPLETED", "SUCCESS"):
+            state_s = normalize_kernel_status(state)
+            print("kernel status", state_s, flush=True)
+            if state_s == "COMPLETE":
                 return {"status": state_s, "detail": last}
-            if state_s in ("ERROR", "FAILED", "CANCELLED", "CANCELED"):
+            if state_s in ("ERROR", "CANCELLED"):
                 raise SystemExit("kernel failed: %s" % last)
         except SystemExit:
             raise
