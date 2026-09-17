@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import subprocess
 import time
 from typing import Any
@@ -66,7 +67,13 @@ def kernels_push() -> dict[str, Any]:
     if proc.returncode != 0:
         raise SystemExit("kaggle kernels push failed:\n%s" % out[-2000:])
     print(out.strip())
-    return {"ok": True, "output": out[-2000:]}
+    # Kaggle rejects a code submission unless we name the exact version, and it
+    # reports the misleading "kernelSessions.get was denied" when we don't.
+    match = re.search(r"version\s+(\d+)\s+successfully pushed", out, flags=re.I)
+    version = int(match.group(1)) if match else None
+    if version is None:
+        print("WARN: could not parse pushed kernel version from push output")
+    return {"ok": True, "version": version, "output": out[-2000:]}
 
 
 DONE_STATES = ("COMPLETE", "COMPLETED", "SUCCESS")
@@ -133,7 +140,8 @@ def wait_kernel_complete(
     stale_guard_sec elapses.
     """
     if timeout_sec is None:
-        timeout_sec = int(os.environ.get("CASMI_KERNEL_TIMEOUT_SEC", 5 * 3600))
+        # Kernel runs take ~20 min, so stay inside the hourly cron cadence.
+        timeout_sec = int(os.environ.get("CASMI_KERNEL_TIMEOUT_SEC", 50 * 60))
     api = authenticate()
     started = time.time()
     deadline = started + timeout_sec
@@ -172,7 +180,7 @@ def wait_kernel_complete(
     )
 
 
-def competition_submit_code(message: str) -> dict[str, Any]:
+def competition_submit_code(message: str, kernel_version: int | None = None) -> dict[str, Any]:
     api = authenticate()
     before = {getattr(s, "ref", None) for s in (api.competition_submissions(COMPETITION) or [])}
     result = api.competition_submit_code(
@@ -180,6 +188,7 @@ def competition_submit_code(message: str) -> dict[str, Any]:
         message=message,
         competition=COMPETITION,
         kernel=KERNEL,
+        kernel_version=kernel_version,
     )
     print("competition_submit_code result", result)
     new_id = None
@@ -202,8 +211,24 @@ def competition_submit_code(message: str) -> dict[str, Any]:
         "status": status,
         "message": message,
         "kernel": KERNEL,
+        "kernel_version": kernel_version,
         "api_result": str(result),
     }
+
+
+def submissions_on(day: str) -> int:
+    """Count submissions whose Kaggle timestamp falls on a YYYY-MM-DD day."""
+    api = authenticate()
+    count = 0
+    for s in api.competition_submissions(COMPETITION) or []:
+        date = getattr(s, "date", None)
+        if date is None:
+            continue
+        stamp = getattr(date, "date", None)
+        text = stamp().isoformat() if callable(stamp) else str(date)[:10]
+        if text == day:
+            count += 1
+    return count
 
 
 def push_and_submit(message: str, *, skip_wait: bool = False) -> dict[str, Any]:
@@ -211,5 +236,5 @@ def push_and_submit(message: str, *, skip_wait: bool = False) -> dict[str, Any]:
     if skip_wait:
         return {"pushed": push, "skipped_wait": True}
     wait = wait_kernel_complete()
-    submit = competition_submit_code(message)
+    submit = competition_submit_code(message, kernel_version=push.get("version"))
     return {"pushed": push, "wait": wait, "submit": submit}

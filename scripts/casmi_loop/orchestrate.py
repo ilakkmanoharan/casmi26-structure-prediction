@@ -19,7 +19,7 @@ if __name__ == "__main__" and __package__ is None:
     __package__ = "scripts.casmi_loop"
 
 from scripts.casmi_loop.chatgpt_spec import write_cycle_docs
-from scripts.casmi_loop.config import KERNEL, LAST_SUBMIT_DATE, ROOT
+from scripts.casmi_loop.config import KERNEL, LAST_SUBMIT_DATE, MAX_SUBMITS_PER_DAY, ROOT
 from scripts.casmi_loop.github_push import GitPushError, push_paths
 from scripts.casmi_loop.implement import apply_ablation
 from scripts.casmi_loop.slots import competition_day
@@ -28,6 +28,7 @@ from scripts.casmi_loop.submit import (
     briefing_from_submissions,
     list_submissions,
     push_and_submit,
+    submissions_on,
 )
 
 
@@ -38,13 +39,22 @@ def _parse_date(raw: str | None) -> date | None:
 
 
 def resolve_slot(args: argparse.Namespace) -> tuple[date, int] | None:
+    """Pick the next slot for today, trusting Kaggle's count over local state."""
     day = _parse_date(args.date) if args.date else competition_day()
     if args.slot:
         return day, int(args.slot)
-    unused = state.next_unused_slot(day)
-    if unused is None:
+
+    used_local = len(state.submitted_slots(day))
+    used_kaggle = used_local
+    try:
+        used_kaggle = submissions_on(day.isoformat())
+    except Exception as exc:
+        print("could not count Kaggle submissions (%s); using local state" % exc)
+    used = max(used_local, used_kaggle)
+    print("submissions used today (%s): local=%s kaggle=%s" % (day, used_local, used_kaggle))
+    if used >= MAX_SUBMITS_PER_DAY:
         return None
-    return day, unused
+    return day, used + 1
 
 
 def should_push_github(submitted: bool, skip_github: bool) -> bool:
@@ -69,7 +79,7 @@ def main() -> int:
 
     resolved = resolve_slot(args)
     if resolved is None:
-        print("all 5 slots already submitted for this competition day; exiting")
+        print("all %s submissions already used today; exiting" % MAX_SUBMITS_PER_DAY)
         return 0
     day, slot = resolved
     if day > LAST_SUBMIT_DATE:
@@ -143,7 +153,7 @@ def main() -> int:
         "submitted": bool(submitted and (kid or submit_info.get("status"))),
         "skipped_reason": None if submitted else ("skip_submit" if args.skip_submit else None),
         "kernel": KERNEL,
-        "kernel_version": None,
+        "kernel_version": (result.get("pushed") or {}).get("version"),
         "submit_ref": str(kid) if kid is not None else None,
         "kaggle_id": kid,
         "message": plan.get("message"),

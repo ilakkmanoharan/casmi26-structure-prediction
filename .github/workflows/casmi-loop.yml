@@ -29,8 +29,8 @@ permissions:
 jobs:
   slot:
     runs-on: ubuntu-latest
-    # Kernel runs on Kaggle can take hours; poll until complete then submit_code.
-    timeout-minutes: 360
+    # Kernel runs take ~20 min; keep the job inside the hourly cadence.
+    timeout-minutes: 70
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -83,7 +83,6 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
-          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_KEY }}
           CASMI_LOOP_PUSH: "1"
           CASMI_LOOP_REPO_URL: https://github.com/ilakkmanoharan/casmi26-structure-prediction
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

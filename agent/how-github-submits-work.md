@@ -9,8 +9,13 @@ Same pattern as Adaptive-Farm-Agent / Kaggriculture: **GitHub Actions**, not Cur
 1. Repo: [github.com/ilakkmanoharan/casmi26-structure-prediction](https://github.com/ilakkmanoharan/casmi26-structure-prediction).
 2. Workflow: `.github/workflows/casmi-loop.yml` — `cron: "0 * * * *"` (every hour UTC).
 3. Each hour a GitHub Ubuntu runner checks out `main`, injects secrets, runs `scripts/casmi_loop/orchestrate.py`.
-4. That script writes Research/Analysis/Hypothesis/Specs, applies one config ablation, rebuilds `kaggle_kernel/`, `kaggle kernels push`, polls until COMPLETE, then `competition_submit_code`, and pushes artifacts back to GitHub.
-5. After **5 successful uploads for the Chicago competition day** (day starts **01:00 America/Chicago**), later hourly runs exit without submitting.
+4. That script writes Research/Analysis/Hypothesis/Specs, applies one config ablation, rebuilds `kaggle_kernel/`, `kaggle kernels push`, polls until COMPLETE (~20 min), then `competition_submit_code`, and pushes artifacts back to GitHub.
+5. After **5 submissions in the current UTC day**, later hourly runs exit without submitting. The count comes from the Kaggle API, so it stays correct even if local state drifts.
+
+## Two constraints that cost us a day of failed runs
+
+- **Always pass `kernel_version` to `competition_submit_code`.** Without it Kaggle fails with `403 Permission 'kernelSessions.get' was denied`, which looks like an auth problem but is really "name the version". The loop parses the version out of `kaggle kernels push` output.
+- **The kernel must install RDKit from the offline wheels dataset** before importing it. Internet is off, so a missing install cell kills the run in the first cell.
 
 Your Mac is only needed to push code, edit secrets, or **Actions → casmi-loop → Run workflow**. It is not in the submit path.
 
