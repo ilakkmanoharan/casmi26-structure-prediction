@@ -95,3 +95,33 @@ def test_format_dedupes_tautomers_and_invalid():
 def test_valid_smiles():
     assert is_valid_smiles("CCO")
     assert not is_valid_smiles("C(C")
+
+
+def test_hybrid_similarity_entropy_weight_interpolates():
+    import numpy as np
+
+    from casmi26.config import ENTROPY_WEIGHT
+    from casmi26.spectrum import entropy_similarity, hybrid_similarity, modified_cosine
+
+    assert ENTROPY_WEIGHT == 0.70
+
+    mz_a = np.array([50.0, 70.0, 100.0], dtype=np.float32)
+    int_a = np.array([0.2, 0.5, 0.8], dtype=np.float32)
+    mz_b = np.array([50.02, 90.0, 100.0], dtype=np.float32)
+    int_b = np.array([0.3, 0.4, 0.9], dtype=np.float32)
+    int_a = int_a / np.linalg.norm(int_a)
+    int_b = int_b / np.linalg.norm(int_b)
+
+    cos = modified_cosine(mz_a, int_a, mz_b, int_b, 120.0, 120.0)
+    ent = entropy_similarity(mz_a, int_a, mz_b, int_b)
+    hybrid = hybrid_similarity(
+        mz_a, int_a, mz_b, int_b, 120.0, 120.0, entropy_weight=ENTROPY_WEIGHT
+    )
+    expected = ENTROPY_WEIGHT * ent + (1.0 - ENTROPY_WEIGHT) * cos
+    assert abs(hybrid - expected) < 1e-6
+
+    hybrid55 = hybrid_similarity(
+        mz_a, int_a, mz_b, int_b, 120.0, 120.0, entropy_weight=0.55
+    )
+    if abs(ent - cos) > 1e-6:
+        assert abs(hybrid - hybrid55) > 1e-9
