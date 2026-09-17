@@ -103,6 +103,38 @@
         "MASS_TOL_PPM_BACKFILL": 15,
         "EXCLUDE_EXACT_DUPLICATES": true
       }
+    },
+    {
+      "day": "2026-09-17",
+      "cycle": 5,
+      "tag": "2026-09-17_cycle05",
+      "started_at": "2026-09-17T07:33:29.645476Z",
+      "runner": "github_actions",
+      "submitted": true,
+      "skipped_reason": null,
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": 13,
+      "submit_ref": "56298621",
+      "kaggle_id": 56298621,
+      "message": "Implementing broader candidate libraries and stricter structure-level mass filters, while further tuning the entropy/modcos weighting, could enhance retrieval performance.",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "2026-09-17-v0.3",
+      "artifacts": {
+        "research": "Research/2026-09-17_cycle05_methods.md",
+        "analysis": "Analysis/2026-09-17_cycle05_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-09-17_cycle05_hypotheses.md",
+        "spec": "Specs/2026-09-17_cycle05_next_submission_spec.md"
+      },
+      "config_patch": {
+        "ENTROPY_WEIGHT": 0.6,
+        "EXCLUDE_EXACT_DUPLICATES": true,
+        "MASS_TOL_PPM": 10,
+        "MASS_TOL_PPM_BACKFILL": 15,
+        "PEAK_MZ_TOL": 0.01,
+        "TOP_PEAKS": 5,
+        "TOP_CANDIDATES_PER_SPECTRUM": 25
+      }
     }
   ]
 }

@@ -1,0 +1,1 @@
+The current strategy involves using a hybrid entropy/modcos similarity measure, excluding exact duplicates based on InChIKeys, and utilizing all available libraries. The mass tolerance parameters are under review to improve candidate filtering and retrieval accuracy.

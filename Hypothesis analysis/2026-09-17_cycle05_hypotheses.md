@@ -1,0 +1,1 @@
+Adjusting the mass tolerance parameters may not be sufficient alone. A broader candidate library and stricter structure-level mass filters could enhance the retrieval process. Additionally, further tuning of the entropy/modcos weighting might be necessary to optimize the balance between similarity measures.
