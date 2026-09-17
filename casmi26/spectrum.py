@@ -241,7 +241,7 @@ def hybrid_similarity(
     precursor_b: float,
     tol: float = 0.05,
     use_neutral_loss: bool = True,
-    entropy_weight: float = 0.55,
+    entropy_weight: float = 0.70,
 ) -> float:
     cos = modified_cosine(
         mz_a, int_a, mz_b, int_b, precursor_a, precursor_b, tol, use_neutral_loss

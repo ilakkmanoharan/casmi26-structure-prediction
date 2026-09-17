@@ -25,7 +25,7 @@
       "KAGGLE_KEY"
     ],
     "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
-    "last_runner": null
+    "last_runner": "cursor_cloud"
   },
   "cycles": [
     {
@@ -102,6 +102,32 @@
         "MASS_TOL_PPM": 10,
         "MASS_TOL_PPM_BACKFILL": 15,
         "EXCLUDE_EXACT_DUPLICATES": true
+      }
+    },
+    {
+      "day": "2026-09-17",
+      "cycle": 5,
+      "tag": "2026-09-17_cycle05",
+      "started_at": "2026-09-17T06:14:00Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "kaggle_secrets_missing_in_cloud_agent",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-09-17_cycle05 ENTROPY_WEIGHT=0.70 entropy-dominant hybrid",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H1-entropy-dominant-hybrid",
+      "artifacts": {
+        "research": "Research/2026-09-17_cycle05_methods.md",
+        "analysis": "Analysis/2026-09-17_cycle05_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-09-17_cycle05_hypotheses.md",
+        "spec": "Specs/2026-09-17_cycle05_next_submission_spec.md"
+      },
+      "config_patch": {
+        "ENTROPY_WEIGHT": 0.70
       }
     }
   ]
