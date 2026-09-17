@@ -1,0 +1,1 @@
+By fine-tuning the mass tolerance parameters, we expect to improve the precision of candidate retrieval, thus enhancing the overall MRR@25 score. The exclusion of exact-duplicate IKs should prevent misleading candidate matches, while the entropy/modcos hybrid approach should balance the trade-off between precision and recall.

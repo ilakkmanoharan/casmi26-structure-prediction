@@ -1,0 +1,1 @@
+The previous submission with ID 56258556, which excluded poisoned exact-duplicate IKs and utilized an entropy/modcos hybrid approach, showed potential improvements. However, the exact impact on the public MRR@25 score is unclear due to the lack of score feedback. The current strategy aims to further refine candidate filtering by adjusting mass tolerance parameters.
