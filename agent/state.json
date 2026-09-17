@@ -48,6 +48,33 @@
         "hypothesis": "Hypothesis analysis/2026-09-15_cycle01_hypotheses.md",
         "spec": "Specs/2026-09-15_cycle01_next_submission_spec.md"
       }
+    },
+    {
+      "day": "2026-09-17",
+      "cycle": 3,
+      "tag": "2026-09-17_cycle03",
+      "started_at": "2026-09-17T00:46:22.012428Z",
+      "runner": "github_actions",
+      "submitted": true,
+      "skipped_reason": null,
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": 11,
+      "submit_ref": "56290242",
+      "kaggle_id": 56290242,
+      "message": "Refining mass tolerance parameters to improve candidate filtering and retrieval accuracy.",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "mass_tolerance_refinement",
+      "artifacts": {
+        "research": "Research/2026-09-17_cycle03_methods.md",
+        "analysis": "Analysis/2026-09-17_cycle03_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-09-17_cycle03_hypotheses.md",
+        "spec": "Specs/2026-09-17_cycle03_next_submission_spec.md"
+      },
+      "config_patch": {
+        "MASS_TOL_PPM": 5,
+        "MASS_TOL_PPM_BACKFILL": 10
+      }
     }
   ]
 }

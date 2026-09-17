@@ -1,0 +1,1 @@
+Improving the candidate filtering process by adjusting the mass tolerance parameters could enhance the retrieval accuracy. A tighter mass tolerance might reduce false positives, especially when combined with the hybrid similarity approach.

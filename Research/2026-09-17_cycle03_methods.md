@@ -1,0 +1,1 @@
+Recent submissions have focused on addressing the issue of exact test-train spectrum duplicates and improving the retrieval strategy using a combination of entropy and modified cosine similarity. The latest submission also attempted to fix library installation issues and expand the library coverage.
