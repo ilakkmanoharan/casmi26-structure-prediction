@@ -83,6 +83,9 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           KAGGLE_USERNAME: ${{ secrets.KAGGLE_USERNAME }}
           KAGGLE_KEY: ${{ secrets.KAGGLE_KEY }}
+          # kaggle 1.7.x authenticates through this on the runner; without it
+          # every API call comes back 401.
+          KAGGLE_API_TOKEN: ${{ secrets.KAGGLE_KEY }}
           CASMI_LOOP_PUSH: "1"
           CASMI_LOOP_REPO_URL: https://github.com/ilakkmanoharan/casmi26-structure-prediction
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
