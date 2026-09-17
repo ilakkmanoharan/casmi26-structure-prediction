@@ -50,7 +50,7 @@ Later kernel versions may still be pending or unscored in the public table.
 
 ## Submit attempt (this Cloud runner)
 
-Tried `kaggle competitions submissions` and `kaggle kernels push -p kaggle_kernel`. Both stopped at **Authentication required** — `KAGGLE_USERNAME` / `KAGGLE_KEY` are not in this Cloud Agent environment, so `~/.kaggle/kaggle.json` was not written. **No kernel push and no `competition_submit_code` from this runner.** GitHub Actions still has those secrets; dispatching `casmi-loop` on this branch is the remaining submit path.
+Tried `kaggle competitions submissions` and `kaggle kernels push -p kaggle_kernel`. Both stopped at **Authentication required** — `KAGGLE_USERNAME` / `KAGGLE_KEY` are not in this Cloud Agent environment, so `~/.kaggle/kaggle.json` was not written. **No kernel push and no `competition_submit_code` from this runner.** `gh workflow run casmi-loop.yml --ref cursor/competition-day-cycle-afdb -f slot=5` returned **HTTP 403** (resource not accessible by integration). Remaining submit path: merge PR #3 or run casmi-loop from a token that can dispatch Actions.
 
 ## Actions / runner notes
 
