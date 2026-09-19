@@ -25,7 +25,7 @@
       "KAGGLE_KEY"
     ],
     "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
-    "last_runner": null
+    "last_runner": "cursor_cloud"
   },
   "cycles": [
     {
@@ -134,6 +134,32 @@
         "PEAK_MZ_TOL": 0.01,
         "TOP_PEAKS": 5,
         "TOP_CANDIDATES_PER_SPECTRUM": 25
+      }
+    },
+    {
+      "day": "2026-09-19",
+      "cycle": 1,
+      "tag": "2026-09-19_cycle01",
+      "started_at": "2026-09-19T06:04:24Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets; quota 0/5 not exhausted; Actions 35421305696 listed kaggle=0 then died on OpenAI 429",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-09-19_cycle01 TOP_PEAKS=128 restore fragment ladder",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H1-top-peaks-128",
+      "artifacts": {
+        "research": "Research/2026-09-19_cycle01_methods.md",
+        "analysis": "Analysis/2026-09-19_cycle01_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-09-19_cycle01_hypotheses.md",
+        "spec": "Specs/2026-09-19_cycle01_next_submission_spec.md"
+      },
+      "config_patch": {
+        "TOP_PEAKS": 128
       }
     }
   ]
