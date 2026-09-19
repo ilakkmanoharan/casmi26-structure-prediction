@@ -16,7 +16,10 @@ MAX_CANDIDATES = 25
 MASS_TOL_PPM = 10
 MASS_TOL_PPM_BACKFILL = 15
 PEAK_MZ_TOL = 0.01
-TOP_PEAKS = 5
+# 128: Li/Fiehn + Flash Entropy keep ions above ~1% BPI (msentropy
+# max_peak_num is 100 or unlimited). Cycle05's 5-peak cap discarded
+# the fragment ladder and coarsened exact-dup detection.
+TOP_PEAKS = 128
 INTENSITY_FLOOR = 0.001
 MAX_PEAKS_ABOVE_PRECURSOR_DA = 2.0
 TOP_K_SPECTRA_PER_QUERY = 80

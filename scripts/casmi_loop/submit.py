@@ -7,17 +7,46 @@ import os
 import re
 import subprocess
 import time
+from pathlib import Path
 from typing import Any
 
 from .config import COMPETITION, KERNEL, KERNEL_DIR
 
 
+def write_kaggle_credentials() -> bool:
+    """Materialize ~/.kaggle files from env without printing secret values.
+
+    GitHub Actions still uses kaggle 1.7 + kaggle.json. Cloud images may have
+    kaggle 2.2, which authenticates via KAGGLE_API_TOKEN or ~/.kaggle/access_token.
+    """
+    user = (os.environ.get("KAGGLE_USERNAME") or "").strip()
+    key = (os.environ.get("KAGGLE_KEY") or os.environ.get("KAGGLE_API_TOKEN") or "").strip()
+    if not user or not key:
+        return False
+    kdir = Path.home() / ".kaggle"
+    kdir.mkdir(mode=0o700, exist_ok=True)
+    json_path = kdir / "kaggle.json"
+    json_path.write_text(json.dumps({"username": user, "key": key}), encoding="utf-8")
+    json_path.chmod(0o600)
+    token_path = kdir / "access_token"
+    token_path.write_text(key + "\n", encoding="utf-8")
+    token_path.chmod(0o600)
+    os.environ.setdefault("KAGGLE_API_TOKEN", key)
+    return True
+
+
 def authenticate() -> Any:
     from kaggle.api.kaggle_api_extended import KaggleApi
 
+    write_kaggle_credentials()
     api = KaggleApi()
     try:
         api.authenticate()
+    except SystemExit as exc:
+        raise SystemExit(
+            "Kaggle auth failed. Set secrets KAGGLE_USERNAME and KAGGLE_KEY "
+            "(kaggle 2.2 also needs KAGGLE_API_TOKEN or ~/.kaggle/access_token)."
+        ) from exc
     except Exception as exc:
         raise SystemExit(
             "Kaggle auth failed (%s). Set secrets KAGGLE_USERNAME and KAGGLE_KEY." % exc
