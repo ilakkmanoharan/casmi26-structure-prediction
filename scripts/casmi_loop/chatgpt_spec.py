@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import urllib.error
 import urllib.request
 from datetime import date
 from pathlib import Path
@@ -75,8 +76,17 @@ def _openai_json(user: str) -> dict[str, Any] | None:
         },
         method="POST",
     )
-    with urllib.request.urlopen(req, timeout=180) as resp:
-        payload = json.loads(resp.read().decode("utf-8"))
+    try:
+        with urllib.request.urlopen(req, timeout=180) as resp:
+            payload = json.loads(resp.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        # Actions 35311548455 / 35421305696 / 35492737629 died on 429
+        # and skipped Kaggle despite remaining quota.
+        print("openai HTTP %s; using deterministic fallback" % exc.code)
+        return None
+    except urllib.error.URLError as exc:
+        print("openai URL error (%s); using deterministic fallback" % exc)
+        return None
     text = payload["choices"][0]["message"]["content"]
     return json.loads(text)
 

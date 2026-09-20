@@ -16,7 +16,7 @@
     ],
     "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01"
   },
-  "cloud_automation": {
+    "cloud_automation": {
     "enabled": false,
     "prompt_path": "agent/CLOUD_CYCLE_PROMPT.md",
     "dashboard_url": "https://cursor.com/automations",
@@ -25,7 +25,7 @@
       "KAGGLE_KEY"
     ],
     "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
-    "last_runner": null
+    "last_runner": "cursor_cloud"
   },
   "cycles": [
     {
@@ -135,6 +135,33 @@
         "TOP_PEAKS": 5,
         "TOP_CANDIDATES_PER_SPECTRUM": 25
       }
+    },
+    {
+      "day": "2026-09-20",
+      "cycle": 1,
+      "tag": "2026-09-20_cycle01",
+      "started_at": "2026-09-20T06:03:28Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-09-20_cycle01 restore TOP_PEAKS 5→128 fragment ladder",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H1-top-peaks-128",
+      "artifacts": {
+        "research": "Research/2026-09-20_cycle01_methods.md",
+        "analysis": "Analysis/2026-09-20_cycle01_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-09-20_cycle01_hypotheses.md",
+        "spec": "Specs/2026-09-20_cycle01_next_submission_spec.md"
+      },
+      "config_patch": {
+        "TOP_PEAKS": 128
+      },
+      "notes": "Quota 0/5 from Actions 35492737629 (kaggle=0) then OpenAI 429. Cloud env still missing KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN; kaggle CLI 2.2.4 cannot auth. Implemented TOP_PEAKS 5→128 + 429 fallback + write_kaggle_credentials. Pytest 20 passed. kernels push / competition_submit_code not run."
     }
   ]
 }
