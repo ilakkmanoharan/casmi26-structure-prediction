@@ -16,7 +16,9 @@ MAX_CANDIDATES = 25
 MASS_TOL_PPM = 10
 MASS_TOL_PPM_BACKFILL = 15
 PEAK_MZ_TOL = 0.01
-TOP_PEAKS = 5
+# Cycle05 / kernel v13 set TOP_PEAKS=5 (destroys fragment ladders).
+# Entropy / Flash Entropy keep ions above ~1% BPI; restore the cycle02 cap.
+TOP_PEAKS = 128
 INTENSITY_FLOOR = 0.001
 MAX_PEAKS_ABOVE_PRECURSOR_DA = 2.0
 TOP_K_SPECTRA_PER_QUERY = 80
