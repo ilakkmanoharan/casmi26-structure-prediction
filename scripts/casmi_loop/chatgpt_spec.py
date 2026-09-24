@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import urllib.error
 import urllib.request
 from datetime import date
 from pathlib import Path
@@ -21,9 +22,9 @@ SYSTEM = (
 # Deterministic fallbacks when OPENAI_API_KEY is missing.
 FALLBACK_ABLATIONS = [
     {
-        "hypothesis": "H-entropy",
-        "summary": "Raise entropy_weight toward entropy similarity dominance.",
-        "config_patch": {"ENTROPY_WEIGHT": 0.70},
+        "hypothesis": "H-top-peaks",
+        "summary": "Restore fragment ladder: keep 128 peaks instead of 5 after cleaning.",
+        "config_patch": {"TOP_PEAKS": 128},
     },
     {
         "hypothesis": "H-mass-tight",
@@ -75,10 +76,17 @@ def _openai_json(user: str) -> dict[str, Any] | None:
         },
         method="POST",
     )
-    with urllib.request.urlopen(req, timeout=180) as resp:
-        payload = json.loads(resp.read().decode("utf-8"))
-    text = payload["choices"][0]["message"]["content"]
-    return json.loads(text)
+    try:
+        with urllib.request.urlopen(req, timeout=180) as resp:
+            payload = json.loads(resp.read().decode("utf-8"))
+        text = payload["choices"][0]["message"]["content"]
+        return json.loads(text)
+    except urllib.error.HTTPError as exc:
+        print("openai HTTP %s; using fallback ablation" % exc.code)
+        return None
+    except (urllib.error.URLError, TimeoutError, json.JSONDecodeError, KeyError, IndexError, TypeError) as exc:
+        print("openai plan failed (%s); using fallback ablation" % type(exc).__name__)
+        return None
 
 
 def _substantial(path: Path, min_chars: int = 400) -> bool:
