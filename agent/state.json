@@ -148,7 +148,7 @@
       "kernel_version": null,
       "submit_ref": null,
       "kaggle_id": null,
-      "message": "2026-09-25_cycle01 restore TOP_PEAKS 5→128 (entropy/modcos fragment ladder)",
+      "message": "2026-09-25_cycle01 restore TOP_PEAKS 5\u2192128 (entropy/modcos fragment ladder)",
       "prior_public_score": 0.143,
       "public_score": null,
       "hypothesis": "H1-top-peaks",
@@ -162,6 +162,32 @@
         "TOP_PEAKS": 128
       },
       "notes": "Quota 0/5 (Actions 36081142271 kaggle=0). LB top Ozymandias31415 0.425. Could not kernels push: KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent in Cloud env. OpenAI 429 fallback added so casmi-loop can submit after merge."
+    },
+    {
+      "day": "2026-09-25",
+      "cycle": 1,
+      "tag": "2026-09-25_cycle01",
+      "started_at": "2026-09-25T07:37:39.242557Z",
+      "runner": "github_actions",
+      "submitted": true,
+      "skipped_reason": null,
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": 14,
+      "submit_ref": "56544614",
+      "kaggle_id": 56544614,
+      "message": "2026-09-25_cycle01 grok-docs",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-grok",
+      "artifacts": {
+        "research": "Research/2026-09-25_cycle01_methods.md",
+        "analysis": "Analysis/2026-09-25_cycle01_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-09-25_cycle01_hypotheses.md",
+        "spec": "Specs/2026-09-25_cycle01_next_submission_spec.md"
+      },
+      "config_patch": {
+        "TOP_PEAKS": 128
+      }
     }
   ]
 }
