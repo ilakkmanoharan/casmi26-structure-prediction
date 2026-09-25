@@ -7,14 +7,38 @@ import os
 import re
 import subprocess
 import time
+from pathlib import Path
 from typing import Any
 
 from .config import COMPETITION, KERNEL, KERNEL_DIR
 
 
+def write_kaggle_credentials() -> bool:
+    """Write ~/.kaggle/kaggle.json (0600) and access_token from env. Never print values."""
+    username = (os.environ.get("KAGGLE_USERNAME") or "").strip()
+    key = (os.environ.get("KAGGLE_KEY") or os.environ.get("KAGGLE_API_TOKEN") or "").strip()
+    if not username or not key:
+        return False
+    dest = Path.home() / ".kaggle"
+    dest.mkdir(parents=True, exist_ok=True)
+    try:
+        dest.chmod(0o700)
+    except OSError:
+        pass
+    cred_path = dest / "kaggle.json"
+    cred_path.write_text(json.dumps({"username": username, "key": key}), encoding="utf-8")
+    cred_path.chmod(0o600)
+    token_path = dest / "access_token"
+    token_path.write_text(key, encoding="utf-8")
+    token_path.chmod(0o600)
+    os.environ.setdefault("KAGGLE_API_TOKEN", key)
+    return True
+
+
 def authenticate() -> Any:
     from kaggle.api.kaggle_api_extended import KaggleApi
 
+    write_kaggle_credentials()
     api = KaggleApi()
     try:
         api.authenticate()
