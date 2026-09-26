@@ -296,6 +296,33 @@
       "config_patch": {
         "TOP_PEAKS": 128
       }
+    },
+    {
+      "day": "2026-09-26",
+      "cycle": 2,
+      "tag": "2026-09-26_cycle02",
+      "started_at": "2026-09-26T06:17:52.489Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-09-26_cycle02 H-entropy",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-entropy",
+      "artifacts": {
+        "research": "Research/2026-09-26_cycle02_methods.md",
+        "analysis": "Analysis/2026-09-26_cycle02_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-09-26_cycle02_hypotheses.md",
+        "spec": "Specs/2026-09-26_cycle02_next_submission_spec.md"
+      },
+      "config_patch": {
+        "ENTROPY_WEIGHT": 0.75
+      },
+      "notes": "Chicago 01:16 CDT first slot of 2026-09-26. UTC Kaggle quota 1/5 (Actions 36207887386 \u2192 56565919 H-top-peaks). Chicago-clock submits since 01:00 CDT: 0/5. Could not kernels push: KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent. LB top Ozymandias31415 0.425. Implemented ENTROPY_WEIGHT 0.6\u21920.75 + Actions slot2 fallback H-entropy."
     }
   ]
 }
