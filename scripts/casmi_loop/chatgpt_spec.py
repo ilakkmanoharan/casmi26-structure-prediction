@@ -27,9 +27,9 @@ FALLBACK_ABLATIONS = [
         "config_patch": {"TOP_PEAKS": 128},
     },
     {
-        "hypothesis": "H-mass-tight",
-        "summary": "Tighten primary mass window to reduce false library hits.",
-        "config_patch": {"MASS_TOL_PPM": 15.0, "MASS_TOL_PPM_BACKFILL": 40.0},
+        "hypothesis": "H-entropy",
+        "summary": "Raise hybrid entropy_weight to 0.75 so ranking follows Li/Fiehn entropy similarity (FDR<10% at 0.75).",
+        "config_patch": {"ENTROPY_WEIGHT": 0.75},
     },
     {
         "hypothesis": "H-mass-wide",
