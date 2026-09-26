@@ -39,9 +39,9 @@ WEIGHTS: Dict[str, float] = {
 }
 
 DOMAIN_PRIOR: Dict[str, float] = {
-    "enveda-np-examples": 1.00,
-    "enveda-180": 0.95,
-    "gnps": 0.72,
+    "enveda-np-examples": 1.0,
+    "enveda-180": 1.0,
+    "gnps": 0.85,
     "riken": 0.72,
     "massbank": 0.65,
     "mona": 0.65,
