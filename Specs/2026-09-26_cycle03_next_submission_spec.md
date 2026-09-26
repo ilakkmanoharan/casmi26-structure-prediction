@@ -1,0 +1,3 @@
+# Spec 2026-09-26_cycle03
+
+Apply config_patch: {"MASS_TOL_PPM": 35.0, "MASS_TOL_PPM_BACKFILL": 80.0, "TOP_K_SPECTRA_PER_QUERY": 120}
