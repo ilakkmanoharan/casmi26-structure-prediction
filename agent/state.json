@@ -535,6 +535,30 @@
         "TOP_PEAKS": 160,
         "MIN_SIMILARITY": 0.05
       }
+    },
+    {
+      "day": "2026-09-27",
+      "cycle": 5,
+      "tag": "2026-09-27_cycle05",
+      "started_at": "2026-09-27T22:18:13.097286Z",
+      "runner": "github_actions",
+      "submitted": true,
+      "skipped_reason": null,
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": 27,
+      "submit_ref": "56620606",
+      "kaggle_id": 56620606,
+      "message": "2026-09-27_cycle05 H-domain",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-domain",
+      "artifacts": {
+        "research": "Research/2026-09-27_cycle05_methods.md",
+        "analysis": "Analysis/2026-09-27_cycle05_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-09-27_cycle05_hypotheses.md",
+        "spec": "Specs/2026-09-27_cycle05_next_submission_spec.md"
+      },
+      "config_patch": {}
     }
   ]
 }
