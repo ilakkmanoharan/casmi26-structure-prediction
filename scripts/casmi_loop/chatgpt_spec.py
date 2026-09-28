@@ -27,9 +27,9 @@ FALLBACK_ABLATIONS = [
         "config_patch": {"TOP_PEAKS": 128},
     },
     {
-        "hypothesis": "H-entropy",
-        "summary": "Raise hybrid entropy_weight to 0.75 so ranking follows Li/Fiehn entropy similarity (FDR<10% at 0.75).",
-        "config_patch": {"ENTROPY_WEIGHT": 0.75},
+        "hypothesis": "H-min-sim",
+        "summary": "Raise MIN_SIMILARITY 0.05→0.12 so weak hybrid ties do not fill the top-25 after the exact-dup IK ban.",
+        "config_patch": {"MIN_SIMILARITY": 0.12},
     },
     {
         "hypothesis": "H-mass-wide",
