@@ -585,6 +585,33 @@
       "config_patch": {
         "TOP_PEAKS": 128
       }
+    },
+    {
+      "day": "2026-09-28",
+      "cycle": 2,
+      "tag": "2026-09-28_cycle02",
+      "started_at": "2026-09-28T06:05:42.695Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-09-28_cycle02 H-min-sim",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-min-sim",
+      "artifacts": {
+        "research": "Research/2026-09-28_cycle02_methods.md",
+        "analysis": "Analysis/2026-09-28_cycle02_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-09-28_cycle02_hypotheses.md",
+        "spec": "Specs/2026-09-28_cycle02_next_submission_spec.md"
+      },
+      "config_patch": {
+        "MIN_SIMILARITY": 0.12
+      },
+      "notes": "Chicago 01:02 CDT first Chicago-clock slot of 2026-09-28. UTC Kaggle quota 1/5 (Actions 36362065777 \u2192 56624265 H-top-peaks kernel v28). Chicago-clock submits since 01:00 CDT: 0/5. Could not list/push/submit: KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent. LB top Ozymandias31415 0.425. Implemented MIN_SIMILARITY 0.05\u21920.12 + Actions slot2 fallback H-min-sim (H-entropy already on main)."
     }
   ]
 }
