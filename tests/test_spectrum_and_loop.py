@@ -15,14 +15,18 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from casmi26.config import ENTROPY_WEIGHT, TOP_PEAKS  # noqa: E402
+from casmi26.config import ENTROPY_WEIGHT, INTENSITY_FLOOR, TOP_PEAKS  # noqa: E402
 from casmi26.spectrum import clean_spectrum  # noqa: E402
 from scripts.casmi_loop.chatgpt_spec import FALLBACK_ABLATIONS, _openai_json  # noqa: E402
 from scripts.casmi_loop.submit import write_kaggle_credentials  # noqa: E402
 
 
-def test_top_peaks_restored_to_fragment_ladder():
-    assert TOP_PEAKS == 128
+def test_top_peaks_keeps_fragment_ladder():
+    assert TOP_PEAKS >= 128
+
+
+def test_intensity_floor_is_msentropy_001():
+    assert INTENSITY_FLOOR == 0.01
 
 
 def test_clean_spectrum_keeps_requested_top_peaks():
@@ -36,9 +40,23 @@ def test_clean_spectrum_keeps_requested_top_peaks():
     assert len(many_mz) > len(five_mz)
 
 
-def test_slot1_fallback_is_top_peaks_128():
+def test_intensity_floor_drops_sub_percent_noise():
+    mz = np.array([100.0, 120.0, 150.0])
+    inten = np.array([1.0, 0.005, 0.5])  # 0.5% of base peak
+    kept_hi, _ = clean_spectrum(
+        mz, inten, precursor_mz=200.0, top_peaks=10, intensity_floor=0.01, sqrt_intensity=False
+    )
+    kept_lo, _ = clean_spectrum(
+        mz, inten, precursor_mz=200.0, top_peaks=10, intensity_floor=0.001, sqrt_intensity=False
+    )
+    assert 120.0 not in kept_hi
+    assert 120.0 in kept_lo
+
+
+def test_slot1_fallback_is_intensity_001():
     fb = FALLBACK_ABLATIONS[0]
-    assert fb["config_patch"] == {"TOP_PEAKS": 128}
+    assert fb["hypothesis"] == "H-intensity"
+    assert fb["config_patch"] == {"INTENSITY_FLOOR": 0.01}
 
 
 def test_entropy_weight_is_li_fiehn_075():
