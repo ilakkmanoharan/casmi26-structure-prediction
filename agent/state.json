@@ -904,6 +904,33 @@
         "spec": "Specs/2026-09-30_cycle05_next_submission_spec.md"
       },
       "config_patch": {}
+    },
+    {
+      "day": "2026-10-01",
+      "cycle": 1,
+      "tag": "2026-10-01_cycle01",
+      "started_at": "2026-10-01T06:05:51.740134Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-10-01_cycle01 H-intensity (INTENSITY_FLOOR 0.001\u21920.01)",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-intensity",
+      "artifacts": {
+        "research": "Research/2026-10-01_cycle01_methods.md",
+        "analysis": "Analysis/2026-10-01_cycle01_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-10-01_cycle01_hypotheses.md",
+        "spec": "Specs/2026-10-01_cycle01_next_submission_spec.md"
+      },
+      "config_patch": {
+        "INTENSITY_FLOOR": 0.01
+      },
+      "notes": "Chicago 01:00 CDT first slot of 2026-10-01. UTC+Chicago quota 0/5 (last submit 56721177 H-domain 23:16Z 09-30). Actions 36803139818 cancelled Run-one-slot at 01:58Z (zombie in_progress). Could not kernels push: KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent. CLIST top pikachu 0.46. Implemented INTENSITY_FLOOR 0.001\u21920.01 + Actions slot1 fallback H-top-peaks\u2192H-intensity. Pytest 23 passed. Need this PR on main before the next hourly casmi-loop or slot 1 will waste a ticket on TOP_PEAKS=128."
     }
   ]
 }

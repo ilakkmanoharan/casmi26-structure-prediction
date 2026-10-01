@@ -22,9 +22,9 @@ SYSTEM = (
 # Deterministic fallbacks when OPENAI_API_KEY is missing.
 FALLBACK_ABLATIONS = [
     {
-        "hypothesis": "H-top-peaks",
-        "summary": "Restore fragment ladder: keep 128 peaks instead of 5 after cleaning.",
-        "config_patch": {"TOP_PEAKS": 128},
+        "hypothesis": "H-intensity",
+        "summary": "Raise INTENSITY_FLOOR to 0.01 (msentropy / Li–Fiehn 1% base-peak noise floor).",
+        "config_patch": {"INTENSITY_FLOOR": 0.01},
     },
     {
         "hypothesis": "H-entropy",
