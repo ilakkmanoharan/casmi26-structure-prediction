@@ -930,6 +930,32 @@
       "config_patch": {
         "TOP_PEAKS": 128
       }
+    },
+    {
+      "day": "2026-10-01",
+      "cycle": 2,
+      "tag": "2026-10-01_cycle02",
+      "started_at": "2026-10-01T16:25:04.856236Z",
+      "runner": "github_actions",
+      "submitted": true,
+      "skipped_reason": null,
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": 43,
+      "submit_ref": "56754985",
+      "kaggle_id": 56754985,
+      "message": "2026-10-01_cycle02 H-entropy",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-entropy",
+      "artifacts": {
+        "research": "Research/2026-10-01_cycle02_methods.md",
+        "analysis": "Analysis/2026-10-01_cycle02_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-10-01_cycle02_hypotheses.md",
+        "spec": "Specs/2026-10-01_cycle02_next_submission_spec.md"
+      },
+      "config_patch": {
+        "ENTROPY_WEIGHT": 0.75
+      }
     }
   ]
 }
