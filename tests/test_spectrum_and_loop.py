@@ -15,7 +15,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from casmi26.config import ENTROPY_WEIGHT, TOP_PEAKS  # noqa: E402
+from casmi26.config import ENTROPY_WEIGHT, INTENSITY_FLOOR, TOP_PEAKS  # noqa: E402
 from casmi26.spectrum import clean_spectrum  # noqa: E402
 from scripts.casmi_loop.chatgpt_spec import FALLBACK_ABLATIONS, _openai_json  # noqa: E402
 from scripts.casmi_loop.submit import write_kaggle_credentials  # noqa: E402
@@ -45,10 +45,24 @@ def test_entropy_weight_is_li_fiehn_075():
     assert ENTROPY_WEIGHT == 0.75
 
 
-def test_slot2_fallback_is_entropy_075():
+def test_intensity_floor_is_msentropy_001():
+    assert INTENSITY_FLOOR == 0.01
+
+
+def test_clean_spectrum_drops_sub_percent_noise():
+    mz = np.array([80.0, 100.0, 120.0, 150.0], dtype=np.float64)
+    inten = np.array([1.0, 0.5, 0.009, 0.002], dtype=np.float64)
+    kept_mz, _ = clean_spectrum(mz, inten, precursor_mz=200.0, top_peaks=128)
+    assert 80.0 in kept_mz
+    assert 100.0 in kept_mz
+    assert 120.0 not in kept_mz
+    assert 150.0 not in kept_mz
+
+
+def test_slot2_fallback_is_intensity_001():
     fb = FALLBACK_ABLATIONS[1]
-    assert fb["hypothesis"] == "H-entropy"
-    assert fb["config_patch"] == {"ENTROPY_WEIGHT": 0.75}
+    assert fb["hypothesis"] == "H-intensity"
+    assert fb["config_patch"] == {"INTENSITY_FLOOR": 0.01}
 
 
 def test_openai_http_429_returns_none(monkeypatch):
