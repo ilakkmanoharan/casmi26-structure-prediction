@@ -11,7 +11,7 @@ def clean_spectrum(
     mzs,
     intensities,
     precursor_mz: Optional[float] = None,
-    intensity_floor: float = 0.001,
+    intensity_floor: float = 0.01,
     top_peaks: int = 64,
     merge_tol: float = 0.005,
     remove_above_precursor_da: float = 2.0,
