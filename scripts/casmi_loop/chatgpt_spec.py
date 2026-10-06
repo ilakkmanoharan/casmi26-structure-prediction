@@ -27,9 +27,9 @@ FALLBACK_ABLATIONS = [
         "config_patch": {"TOP_PEAKS": 128},
     },
     {
-        "hypothesis": "H-entropy",
-        "summary": "Raise hybrid entropy_weight to 0.75 so ranking follows Li/Fiehn entropy similarity (FDR<10% at 0.75).",
-        "config_patch": {"ENTROPY_WEIGHT": 0.75},
+        "hypothesis": "H-peak-mz",
+        "summary": "Widen fragment match window to Flash Entropy Search default 0.02 Da (20 mDa).",
+        "config_patch": {"PEAK_MZ_TOL": 0.02},
     },
     {
         "hypothesis": "H-mass-wide",
