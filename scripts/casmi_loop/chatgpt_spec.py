@@ -27,9 +27,9 @@ FALLBACK_ABLATIONS = [
         "config_patch": {"TOP_PEAKS": 128},
     },
     {
-        "hypothesis": "H-entropy",
-        "summary": "Raise hybrid entropy_weight to 0.75 so ranking follows Li/Fiehn entropy similarity (FDR<10% at 0.75).",
-        "config_patch": {"ENTROPY_WEIGHT": 0.75},
+        "hypothesis": "H-intensity",
+        "summary": "Raise intensity floor to 0.01 so clean_spectrum drops ions below 1% of base peak (Li/Fiehn + MSEntropy default).",
+        "config_patch": {"INTENSITY_FLOOR": 0.01},
     },
     {
         "hypothesis": "H-mass-wide",
