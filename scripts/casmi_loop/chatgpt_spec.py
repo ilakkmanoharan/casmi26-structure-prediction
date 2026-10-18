@@ -32,13 +32,9 @@ FALLBACK_ABLATIONS = [
         "config_patch": {"ENTROPY_WEIGHT": 0.75},
     },
     {
-        "hypothesis": "H-mass-wide",
-        "summary": "Widen mass window + more neighbors for sparse queries.",
-        "config_patch": {
-            "MASS_TOL_PPM": 35.0,
-            "MASS_TOL_PPM_BACKFILL": 80.0,
-            "TOP_K_SPECTRA_PER_QUERY": 120,
-        },
+        "hypothesis": "H-intensity",
+        "summary": "Raise relative intensity floor to Flash Entropy / ms_entropy default (1% of base peak).",
+        "config_patch": {"INTENSITY_FLOOR": 0.01},
     },
     {
         "hypothesis": "H-peaks",
