@@ -32,9 +32,9 @@ FALLBACK_ABLATIONS = [
         "config_patch": {"ENTROPY_WEIGHT": 0.75},
     },
     {
-        "hypothesis": "H-intensity",
-        "summary": "Raise relative intensity floor to Flash Entropy / ms_entropy default (1% of base peak).",
-        "config_patch": {"INTENSITY_FLOOR": 0.01},
+        "hypothesis": "H-peak-mz",
+        "summary": "Widen fragment matching to Flash Entropy / ms_entropy default (20 mDa).",
+        "config_patch": {"PEAK_MZ_TOL": 0.02},
     },
     {
         "hypothesis": "H-peaks",
