@@ -15,8 +15,8 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from casmi26.config import ENTROPY_WEIGHT, INTENSITY_FLOOR, TOP_PEAKS  # noqa: E402
-from casmi26.spectrum import clean_spectrum  # noqa: E402
+from casmi26.config import ENTROPY_WEIGHT, INTENSITY_FLOOR, PEAK_MZ_TOL, TOP_PEAKS  # noqa: E402
+from casmi26.spectrum import clean_spectrum, modified_cosine  # noqa: E402
 from scripts.casmi_loop.chatgpt_spec import FALLBACK_ABLATIONS, _openai_json  # noqa: E402
 from scripts.casmi_loop.submit import write_kaggle_credentials  # noqa: E402
 
@@ -55,10 +55,29 @@ def test_intensity_floor_is_flash_entropy_001():
     assert INTENSITY_FLOOR == 0.01
 
 
-def test_slot3_fallback_is_intensity_001():
+def test_slot3_fallback_is_peak_mz_002():
     fb = FALLBACK_ABLATIONS[2]
-    assert fb["hypothesis"] == "H-intensity"
-    assert fb["config_patch"] == {"INTENSITY_FLOOR": 0.01}
+    assert fb["hypothesis"] == "H-peak-mz"
+    assert fb["config_patch"] == {"PEAK_MZ_TOL": 0.02}
+
+
+def test_peak_mz_tol_is_flash_entropy_002():
+    assert PEAK_MZ_TOL == 0.02
+
+
+def test_modified_cosine_recovers_15mda_shift_at_002():
+    mz_a = np.array([100.0, 147.0], dtype=np.float32)
+    int_a = np.array([1.0, 0.5], dtype=np.float32)
+    int_a = int_a / np.linalg.norm(int_a)
+    mz_b = np.array([100.015, 147.0], dtype=np.float32)
+    int_b = int_a.copy()
+    tight = modified_cosine(
+        mz_a, int_a, mz_b, int_b, 200.0, 200.0, tol=0.01, use_neutral_loss=False
+    )
+    wide = modified_cosine(
+        mz_a, int_a, mz_b, int_b, 200.0, 200.0, tol=0.02, use_neutral_loss=False
+    )
+    assert wide > tight
 
 
 def test_clean_spectrum_drops_sub_percent_noise():
