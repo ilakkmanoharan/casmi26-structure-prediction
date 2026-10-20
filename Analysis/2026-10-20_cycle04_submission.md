@@ -1,0 +1,15 @@
+# Analysis 2026-10-20_cycle04
+
+Prior score: 0.143
+
+Recent Kaggle submissions (newest first):
+- id=57442950 score=None status=SubmissionStatus.COMPLETE desc=2026-10-20_cycle03 H-intensity
+- id=57433041 score=None status=SubmissionStatus.COMPLETE desc=2026-10-20_cycle02 H-entropy
+- id=57421540 score=None status=SubmissionStatus.COMPLETE desc=2026-10-20_cycle01 H-top-peaks
+- id=57412696 score=None status=SubmissionStatus.COMPLETE desc=2026-10-19_cycle05 H-domain
+- id=57407066 score=None status=SubmissionStatus.COMPLETE desc=2026-10-19_cycle04 H-peaks
+- id=57396819 score=None status=SubmissionStatus.COMPLETE desc=2026-10-19_cycle03 H-intensity
+- id=57385301 score=None status=SubmissionStatus.COMPLETE desc=2026-10-19_cycle02 H-entropy
+- id=57376181 score=None status=SubmissionStatus.COMPLETE desc=2026-10-19_cycle01 H-top-peaks
+- id=57364413 score=None status=SubmissionStatus.COMPLETE desc=2026-10-18_cycle05 H-domain
+- id=57358116 score=None status=SubmissionStatus.COMPLETE desc=2026-10-18_cycle04 H-peaks
