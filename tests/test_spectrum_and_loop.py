@@ -15,8 +15,8 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from casmi26.config import ENTROPY_WEIGHT, INTENSITY_FLOOR, TOP_PEAKS  # noqa: E402
-from casmi26.spectrum import clean_spectrum  # noqa: E402
+from casmi26.config import ENTROPY_WEIGHT, INTENSITY_FLOOR, PEAK_MZ_TOL, TOP_PEAKS  # noqa: E402
+from casmi26.spectrum import clean_spectrum, entropy_similarity  # noqa: E402
 from scripts.casmi_loop.chatgpt_spec import FALLBACK_ABLATIONS, _openai_json  # noqa: E402
 from scripts.casmi_loop.submit import write_kaggle_credentials  # noqa: E402
 
@@ -45,10 +45,24 @@ def test_entropy_weight_is_li_fiehn_075():
     assert ENTROPY_WEIGHT == 0.75
 
 
-def test_slot2_fallback_is_entropy_075():
+def test_peak_mz_tol_is_flash_entropy_002():
+    assert PEAK_MZ_TOL == 0.02
+
+
+def test_slot2_fallback_is_peak_mz_002():
     fb = FALLBACK_ABLATIONS[1]
-    assert fb["hypothesis"] == "H-entropy"
-    assert fb["config_patch"] == {"ENTROPY_WEIGHT": 0.75}
+    assert fb["hypothesis"] == "H-peak-mz"
+    assert fb["config_patch"] == {"PEAK_MZ_TOL": 0.02}
+
+
+def test_entropy_similarity_recovers_15mda_shift_at_20mda_tol():
+    mz_a = np.array([100.0, 150.0], dtype=np.float32)
+    mz_b = np.array([100.015, 150.0], dtype=np.float32)
+    inten = np.array([0.8, 0.6], dtype=np.float32)
+    inten = inten / np.linalg.norm(inten)
+    tight = entropy_similarity(mz_a, inten, mz_b, inten, tol=0.01)
+    wide = entropy_similarity(mz_a, inten, mz_b, inten, tol=0.02)
+    assert wide > tight
 
 
 def test_intensity_floor_is_flash_entropy_001():
