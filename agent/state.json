@@ -3636,6 +3636,33 @@
       "config_patch": {
         "ENTROPY_WEIGHT": 0.75
       }
+    },
+    {
+      "day": "2026-10-24",
+      "cycle": 3,
+      "tag": "2026-10-24_cycle03",
+      "started_at": "2026-10-24T06:09:12.357621+00:00",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-10-24_cycle03 H-peak-mz",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-peak-mz",
+      "artifacts": {
+        "research": "Research/2026-10-24_cycle03_methods.md",
+        "analysis": "Analysis/2026-10-24_cycle03_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-10-24_cycle03_hypotheses.md",
+        "spec": "Specs/2026-10-24_cycle03_next_submission_spec.md"
+      },
+      "config_patch": {
+        "PEAK_MZ_TOL": 0.02
+      },
+      "notes": "Chicago 01:05 CDT first Cloud slot of 2026-10-24. UTC Kaggle quota 2/5 (Actions 40044740000 \u2192 57576969 H-top-peaks kernel v144 at 00:39Z; Actions 40066560089 \u2192 57584149 H-entropy kernel v145 at 05:48Z). Chicago-clock submits since 01:00 CDT: 0/5. Could not write ~/.kaggle/kaggle.json or kernels push: KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent. LB top Oleksandr Parfionov / pikachu / CHU1PC 0.50. Implemented PEAK_MZ_TOL 0.01\u21920.02 + Actions slot-2 and slot-3 fallbacks \u2192 H-peak-mz. Pytest 25 passed. Merge this PR before the next unused casmi-loop slot (~07:00 UTC hourly) or it wastes UTC ticket 3 on INTENSITY_FLOOR=0.01."
     }
   ]
 }
