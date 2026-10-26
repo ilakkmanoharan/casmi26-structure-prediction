@@ -3895,6 +3895,33 @@
       "config_patch": {
         "TOP_PEAKS": 128
       }
+    },
+    {
+      "day": "2026-10-26",
+      "cycle": 2,
+      "tag": "2026-10-26_cycle02",
+      "started_at": "2026-10-26T06:06:42.156071+00:00",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-10-26_cycle02 H-min-sim",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-min-sim",
+      "artifacts": {
+        "research": "Research/2026-10-26_cycle02_methods.md",
+        "analysis": "Analysis/2026-10-26_cycle02_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-10-26_cycle02_hypotheses.md",
+        "spec": "Specs/2026-10-26_cycle02_next_submission_spec.md"
+      },
+      "config_patch": {
+        "MIN_SIMILARITY": 0.12
+      },
+      "notes": "Chicago 01:02 CDT first Cloud slot of 2026-10-26. UTC Kaggle quota 1/5 (Actions 40266236098 \u2192 57652978 H-top-peaks kernel v154 at ~04:06Z). Chicago-clock submits since 01:00 CDT: 0/5. Could not write ~/.kaggle/kaggle.json or kernels push: KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent. LB top Oleksandr Parfionov 0.504 / Savko 0.503 / pikachu 0.499. Implemented MIN_SIMILARITY 0.05\u21920.12 + Actions slot-2 fallback \u2192 H-min-sim and slot-3 \u2192 H-peaks (TOP_PEAKS=160 only). Pytest 26 passed. Merge this PR before the next unused casmi-loop slot (~07:00 UTC hourly) or it wastes UTC ticket 2 on already-live PEAK_MZ_TOL=0.02."
     }
   ]
 }
