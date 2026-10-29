@@ -4234,6 +4234,33 @@
       "config_patch": {
         "TOP_PEAKS": 128
       }
+    },
+    {
+      "day": "2026-10-29",
+      "cycle": 3,
+      "tag": "2026-10-29_cycle03",
+      "started_at": "2026-10-29T09:06:28.264730Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-10-29_cycle03 H-peaks TOP_PEAKS 128\u2192160 (fragment ladder after 1% floor)",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-peaks",
+      "artifacts": {
+        "research": "Research/2026-10-29_cycle03_methods.md",
+        "analysis": "Analysis/2026-10-29_cycle03_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-10-29_cycle03_hypotheses.md",
+        "spec": "Specs/2026-10-29_cycle03_next_submission_spec.md"
+      },
+      "config_patch": {
+        "TOP_PEAKS": 160
+      },
+      "notes": "Chicago 04:02 CDT / 09:02 UTC cycle03. UTC Kaggle quota 1/5 (Actions 40805625766 \u2192 57756058 H-top-peaks kernel v167 at ~02:33Z). Chicago-clock submits since 01:00 CDT: 0/5. Could not write ~/.kaggle/kaggle.json or kernels push: KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent. LB top Parfionov 0.52 / Savko 0.51 / pikachu/Shehab/CHU1PC 0.50. Implemented TOP_PEAKS 128\u2192160 + Actions slot-2 fallback H-min-sim and slot-3/4 H-peaks. Pytest 27 passed. Cycle02 H-min-sim remains unmerged PR #41. Merge before the next unused casmi-loop hour or it wastes UTC ticket 2 on PEAK_MZ_TOL=0.02."
     }
   ]
 }
