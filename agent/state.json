@@ -4234,6 +4234,32 @@
       "config_patch": {
         "TOP_PEAKS": 128
       }
+    },
+    {
+      "day": "2026-10-29",
+      "cycle": 2,
+      "tag": "2026-10-29_cycle02",
+      "started_at": "2026-10-29T06:05:02.345778Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-10-29_cycle02 H-min-sim MIN_SIMILARITY 0.05\u21920.12 (library-hit admission floor)",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-min-sim",
+      "artifacts": {
+        "research": "Research/2026-10-29_cycle02_methods.md",
+        "analysis": "Analysis/2026-10-29_cycle02_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-10-29_cycle02_hypotheses.md",
+        "spec": "Specs/2026-10-29_cycle02_next_submission_spec.md"
+      },
+      "config_patch": {
+        "MIN_SIMILARITY": 0.12
+      }
     }
   ]
 }
