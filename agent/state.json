@@ -4470,6 +4470,32 @@
       "config_patch": {
         "PEAK_MZ_TOL": 0.02
       }
+    },
+    {
+      "day": "2026-10-31",
+      "cycle": 3,
+      "tag": "2026-10-31_cycle03",
+      "started_at": "2026-10-31T10:33:35.818Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent; write_kaggle_credentials()=False; no kernels push or competition_submit_code. UTC quota 2/5, Chicago-clock 1/5. Did not dispatch casmi-loop (would replay already-live PEAK_MZ_TOL=0.02).",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-10-31_cycle03 H-min-sim (MIN_SIMILARITY 0.05\u21920.12); Cloud secrets missing",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-min-sim",
+      "artifacts": {
+        "research": "Research/2026-10-31_cycle03_methods.md",
+        "analysis": "Analysis/2026-10-31_cycle03_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-10-31_cycle03_hypotheses.md",
+        "spec": "Specs/2026-10-31_cycle03_next_submission_spec.md"
+      },
+      "config_patch": {
+        "MIN_SIMILARITY": 0.12
+      }
     }
   ]
 }
