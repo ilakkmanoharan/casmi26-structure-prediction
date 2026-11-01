@@ -4599,6 +4599,33 @@
       "config_patch": {
         "PEAK_MZ_TOL": 0.02
       }
+    },
+    {
+      "day": "2026-11-01",
+      "cycle": 3,
+      "tag": "2026-11-01_cycle03",
+      "started_at": "2026-11-01T09:03:52.699Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-11-01_cycle03 H-min-sim MIN_SIMILARITY 0.05\u21920.12",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-min-sim",
+      "artifacts": {
+        "research": "Research/2026-11-01_cycle03_methods.md",
+        "analysis": "Analysis/2026-11-01_cycle03_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-11-01_cycle03_hypotheses.md",
+        "spec": "Specs/2026-11-01_cycle03_next_submission_spec.md"
+      },
+      "config_patch": {
+        "MIN_SIMILARITY": 0.12
+      },
+      "notes": "Late 0 6 * * * Cloud cron at 09:03 UTC / 03:03 CST after DST fallback. UTC quota 2/5 (Actions 41263245036 \u2192 57857604 H-top-peaks kernel v180 at ~02:17Z, already-live TOP_PEAKS=128; Actions 41291447254 \u2192 57867206 H-peak-mz kernel v181 at ~09:23Z, already-live PEAK_MZ_TOL=0.02). Chicago-clock 1/5. 07:00/08:00 UTC casmi-loop did not fire; 09:00 UTC spent ticket 2 on the already-live peak-mz fallback. Could not kernels push: KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent. Did not dispatch casmi-loop (would race the in-progress 09:00 UTC run / waste UTC ticket 3 on already-live PEAK_MZ_TOL=0.02). Prior Cloud cycle02 PRs #54/#55 still draft. Merge before 10:00 UTC. CLIST (updated ~16h before 09:10Z): Savko 0.52, Parfionov 0.52, pikachu/Shehab/CHU1PC/democatXamer 0.50. Public analog notebooks badge 0.479. Best scored public still 0.143."
     }
   ]
 }
