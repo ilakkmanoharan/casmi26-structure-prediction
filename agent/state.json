@@ -4678,6 +4678,33 @@
       "config_patch": {
         "TOP_PEAKS": 128
       }
+    },
+    {
+      "day": "2026-11-02",
+      "cycle": 2,
+      "tag": "2026-11-02_cycle02",
+      "started_at": "2026-11-02T06:06:01.865529+00:00",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-11-02_cycle02 H-min-sim",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-min-sim",
+      "artifacts": {
+        "research": "Research/2026-11-02_cycle02_methods.md",
+        "analysis": "Analysis/2026-11-02_cycle02_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-11-02_cycle02_hypotheses.md",
+        "spec": "Specs/2026-11-02_cycle02_next_submission_spec.md"
+      },
+      "config_patch": {
+        "MIN_SIMILARITY": 0.12
+      },
+      "notes": "Chicago 00:02 CST / 06:02 UTC first Cloud cron of 2026-11-02 (0 6 * * *; 1h early after DST). UTC Kaggle quota 1/5 (Actions -> 57889756 H-top-peaks kernel v184 at ~00:50Z, already-live TOP_PEAKS=128). Chicago-clock 2026-11-01 still open until 01:00 CST: 4/5 (57867206, 57878253, 57884052, 57889756). Quota not exhausted. Could not write ~/.kaggle/kaggle.json or kernels push: KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent. CLIST: Savko 0.52, Parfionov 0.52, democat 0.51, pikachu/Shehab/CHU1PC 0.50. Implemented MIN_SIMILARITY 0.05->0.12 + Actions slot-2/3 fallbacks -> H-min-sim, slot-4 H-peaks TOP_PEAKS=160 only. Pytest updated. Merge this PR before the next unused casmi-loop hour (~07:00 UTC) or it wastes UTC ticket 2 on PEAK_MZ_TOL=0.02. Prior Cloud H-min-sim PRs #38-#58 still unmerged. Next unused after merge: TOP_PEAKS 128->160."
     }
   ]
 }
