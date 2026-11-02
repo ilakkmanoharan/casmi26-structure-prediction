@@ -1,0 +1,54 @@
+# Analysis — 2026-11-02 cycle02
+
+Competition day for this Cloud prompt starts **01:00 America/Chicago**. At trigger time **2026-11-02T06:02Z / 00:02 CST** that next day has **not** opened (01:00 CST = 07:00 UTC). Chicago competition day **2026-11-01** is therefore still current. Kaggle’s enforced reset is midnight UTC (`scripts/casmi_loop/slots.py`). This run tags **2026-11-02_cycle02** so `casmi-loop` will reuse these substantial docs on the next unused UTC slot after merge.
+
+## Quota (re-checked 06:03 UTC)
+
+Cloud secrets `KAGGLE_USERNAME` / `KAGGLE_KEY` / `KAGGLE_API_TOKEN` are **absent**, so `write_kaggle_credentials()` returned **False** and `~/.kaggle/kaggle.json` was not written. `kaggle competitions submissions` is not callable. Count is from `agent/state.json` + GitHub Actions `casmi-loop` + public CLIST / prior Cloud notes.
+
+| Clock | Used | Remaining | Rows counted |
+|-------|------|-----------|--------------|
+| UTC calendar 2026-11-02 | **1/5** | 4 | Actions → Kaggle **57889756** H-top-peaks kernel v184 ~00:50Z (`TOP_PEAKS=128`, already live). |
+| Chicago 01:00 2026-11-01 (this prompt, still open until 07:00 UTC) | **4/5** | 1 | 57867206 (09:23Z H-peak-mz), 57878253 (16:55Z H-peak-mz), 57884052 (21:18Z H-peaks), 57889756 (00:50Z H-top-peaks). 57857604 at 02:17Z landed *before* first 01:00 CDT / 06:00 UTC. |
+| Chicago 01:00 2026-11-02 | **0/5** | 5 | Day has not started. |
+
+Quota is **not** exhausted (5/5 not used on either clock). Do not exit; implement + hand off. Next unused cycle on `main` for UTC 2026-11-02 is **cycle02**. Cloud PRs **#38–#58** already wrote H-min-sim but stayed draft. Next unused casmi-loop hourly is **07:00 UTC**.
+
+## Recent submissions (from committed Analysis + state)
+
+- id=**57889756** score=None status=COMPLETE desc=`2026-11-02_cycle01 H-top-peaks` (`TOP_PEAKS=128`, already live; kernel v184)
+- id=**57884052** score=None status=COMPLETE desc=`2026-11-01_cycle04 H-peaks` (`TOP_PEAKS=160`, kernel v183)
+- id=**57878253** score=None status=COMPLETE desc=`2026-11-01_cycle03 H-peak-mz` (`PEAK_MZ_TOL=0.02`, already live; kernel v182)
+- id=**57867206** score=None status=COMPLETE desc=`2026-11-01_cycle02 H-peak-mz` (`PEAK_MZ_TOL=0.02`, already live; kernel v181)
+- id=**57857604** score=None status=COMPLETE desc=`2026-11-01_cycle01 H-top-peaks` (`TOP_PEAKS=128`, already live; kernel v180)
+- id=57852239 score=None status=COMPLETE desc=`2026-10-31_cycle05 H-domain`
+- id=57847630 score=None status=COMPLETE desc=`2026-10-31_cycle04 H-peaks`
+- id=57840318 score=None status=COMPLETE desc=`2026-10-31_cycle03 H-peak-mz`
+- id=57830376 score=None status=COMPLETE desc=`2026-10-31_cycle02 H-peak-mz`
+- id=57821778 score=None status=COMPLETE desc=`2026-10-31_cycle01 H-top-peaks`
+
+No scored public row above **0.143**. Kernel versions keep incrementing; public MRR does not.
+
+## Leaderboard context (CLIST, re-fetched 06:05Z)
+
+Savko **0.52**, Parfionov **0.52**, democat **0.51**, pikachu / Shehab / CHU1PC **0.50**. Community analog notebooks still badge **0.479**. Gap vs our 0.143 is analog + fingerprint + in-silico rerank, but the immediate no-op is that Actions will replay `PEAK_MZ_TOL=0.02` at 07:00 UTC unless fallbacks are retargeted and this spec is on `main`.
+
+Kaggle’s native leaderboard page rate-limited (`Too many requests`); CLIST is the live public snapshot used here.
+
+## Why score is low
+
+1. **Exact test↔train spectrum duplicates** in `enveda-180` with train labels ≠ competition GT. `EXCLUDE_EXACT_DUPLICATES=True` already bans those inchikey14s. Remaining score is from non-identical evidence.
+
+2. **Admission floor is 0.05.** `retrieve_for_spectrum` (`casmi26/retrieve.py`) keeps every hybrid entropy/modcos hit ≥ `cfg.min_similarity`. At 0.05, weak cross-library decoys fill `TOP_K_SPECTRA=120` and crowd the top-25. Literature identification floors are 0.55–0.75 (entropy), ~0.6 (MS2Query discard band), ~0.5 (GNPS cosine). 0.12 is the first unused one-knob step.
+
+3. **Slot rotation is a no-op.** Live main after Actions 11-02 cycle01: `TOP_PEAKS=128`, `ENTROPY_WEIGHT=0.75`, `INTENSITY_FLOOR=0.01`, mass-wide 35/80, `MIN_SIMILARITY=0.05`, **`PEAK_MZ_TOL=0.02`**. Slot-2 and slot-3 fallbacks still apply `PEAK_MZ_TOL=0.02`. Slot-4 `H-peaks` currently sets `MIN_SIMILARITY=0.05`, which would undo a merged floor raise.
+
+## Concrete improvement for this slot
+
+**`MIN_SIMILARITY` 0.05 → 0.12** (library-hit admission floor).
+
+Retarget Actions **slot-2 and slot-3** fallbacks to **H-min-sim**, and **slot-4** to `TOP_PEAKS=160` **without** resetting the floor.
+
+If this PR is **not** merged before **07:00 UTC**, the next unused `casmi-loop` hour will spend UTC ticket 2 on `PEAK_MZ_TOL=0.02` — another no-op.
+
+`write_kaggle_credentials()` returned **False**. No `kernels push` / `competition_submit_code` from Cloud. Do **not** dispatch casmi-loop until merged.
