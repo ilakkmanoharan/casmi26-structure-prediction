@@ -4782,6 +4782,33 @@
       "config_patch": {
         "PEAK_MZ_TOL": 0.02
       }
+    },
+    {
+      "day": "2026-11-03",
+      "cycle": 3,
+      "tag": "2026-11-03_cycle03",
+      "started_at": "2026-11-03T12:00:08.413Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent; write_kaggle_credentials() returned False",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-11-03_cycle03 H-min-sim (MIN_SIMILARITY 0.05\u21920.12); Cloud cannot kernels push",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-min-sim",
+      "artifacts": {
+        "research": "Research/2026-11-03_cycle03_methods.md",
+        "analysis": "Analysis/2026-11-03_cycle03_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-11-03_cycle03_hypotheses.md",
+        "spec": "Specs/2026-11-03_cycle03_next_submission_spec.md"
+      },
+      "config_patch": {
+        "MIN_SIMILARITY": 0.12
+      },
+      "notes": "Chicago 06:00 CST / 12:00 UTC Cloud slot (0 12 * * *). UTC quota 2/5 (Actions 41555977510 \u2192 57927482 H-top-peaks kernel v187; Actions 41598050009 \u2192 57939381 H-peak-mz kernel v188). Chicago-clock 2026-11-03 1/5. 01:00\u201305:00/09:00\u201312:00 UTC casmi-loop did not fire. Implemented MIN_SIMILARITY 0.05\u21920.12; retargeted Actions slot-2/3\u2192H-min-sim, slot-4\u2192H-peaks (TOP_PEAKS=160 only). Pytest 27 passed. Kernel rebuilt, internet off. Did not dispatch casmi-loop (would waste UTC ticket 3 on already-live PEAK_MZ_TOL=0.02). CLIST 12:05Z: Shehab 0.53, Savko 0.52, Parfionov 0.52, democat 0.51, pikachu/CHU1PC 0.50. Merge before next unused casmi-loop hour (13:00 UTC)."
     }
   ]
 }
