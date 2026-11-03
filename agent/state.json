@@ -4782,6 +4782,33 @@
       "config_patch": {
         "PEAK_MZ_TOL": 0.02
       }
+    },
+    {
+      "day": "2026-11-03",
+      "cycle": 3,
+      "tag": "2026-11-03_cycle03",
+      "started_at": "2026-11-03T09:05:03.883+00:00",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-11-03_cycle03 H-min-sim",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-min-sim",
+      "artifacts": {
+        "research": "Research/2026-11-03_cycle03_methods.md",
+        "analysis": "Analysis/2026-11-03_cycle03_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-11-03_cycle03_hypotheses.md",
+        "spec": "Specs/2026-11-03_cycle03_next_submission_spec.md"
+      },
+      "config_patch": {
+        "MIN_SIMILARITY": 0.12
+      },
+      "notes": "Chicago 03:02 CST / 09:02 UTC late 0 6 * * * (Chicago day 2026-11-03 open). UTC Kaggle quota 2/5 (Actions 41555977510 -> 57927482 H-top-peaks kernel v187 at ~01:06Z, already-live TOP_PEAKS=128; Actions 41598050009 -> 57939381 H-peak-mz kernel v188 at ~08:00Z, already-live PEAK_MZ_TOL=0.02). Chicago-clock 2026-11-03 1/5 (57939381). Chicago-clock 2026-11-02 closed at 3/5 (57900287, 57917568, 57927482). Quota not exhausted. 01:00/02:00/03:00/04:00/05:00/09:00 UTC casmi-loop hours did not fire. Could not write ~/.kaggle/kaggle.json or kernels push: KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent. CLIST: Savko 0.52, Parfionov 0.52, democat 0.51, pikachu/Shehab/CHU1PC 0.50. Implemented MIN_SIMILARITY 0.05->0.12 + Actions slot-2/3 fallbacks -> H-min-sim, slot-4 H-peaks TOP_PEAKS=160 only. Merge this PR before the next unused casmi-loop hour (~10:00 UTC) or it wastes UTC ticket 3 on PEAK_MZ_TOL=0.02. Prior Cloud H-min-sim PRs #38-#63 still unmerged. Next unused after merge: TOP_PEAKS 128->160."
     }
   ]
 }
