@@ -4861,6 +4861,32 @@
       "config_patch": {
         "TOP_PEAKS": 128
       }
+    },
+    {
+      "day": "2026-11-04",
+      "cycle": 2,
+      "tag": "2026-11-04_cycle02",
+      "started_at": "2026-11-04T06:00:11.087Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "message": "2026-11-04_cycle02 H-min-sim (MIN_SIMILARITY 0.05\u21920.12); Cloud cannot kernels push",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-min-sim",
+      "artifacts": {
+        "research": "Research/2026-11-04_cycle02_methods.md",
+        "analysis": "Analysis/2026-11-04_cycle02_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-11-04_cycle02_hypotheses.md",
+        "spec": "Specs/2026-11-04_cycle02_next_submission_spec.md"
+      },
+      "config_patch": {
+        "MIN_SIMILARITY": 0.12
+      },
+      "notes": "Chicago 00:00 CST / 06:00 UTC Cloud slot (0 6 * * *; 1h before Chicago day 2026-11-04 start). UTC quota 1/5 (Actions 41757745330 \u2192 57967804 H-top-peaks kernel v191). Chicago-clock 2026-11-03 4/5 (57939381, 57953771, 57961369, 57967804). 02:00\u201306:00 UTC casmi-loop did not fire. Implemented MIN_SIMILARITY 0.05\u21920.12; retargeted Actions slot-2/3\u2192H-min-sim, slot-4\u2192H-peaks (TOP_PEAKS=160 only). Pytest 27 passed. Kernel rebuilt, internet off. Did not dispatch casmi-loop (would waste UTC ticket 2 on already-live PEAK_MZ_TOL=0.02). CLIST 06:05Z: Shehab 0.53, Savko 0.52, Parfionov 0.52, democat 0.51, pikachu/CHU1PC 0.50. Merge before next unused casmi-loop hour (07:00 UTC)."
     }
   ]
 }
