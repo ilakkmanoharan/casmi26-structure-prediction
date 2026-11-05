@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
 from casmi26.config import ENTROPY_WEIGHT, INTENSITY_FLOOR, PEAK_MZ_TOL, TOP_PEAKS  # noqa: E402
-from casmi26.spectrum import clean_spectrum  # noqa: E402
+from casmi26.spectrum import clean_spectrum, entropy_similarity, hybrid_similarity  # noqa: E402
 from scripts.casmi_loop.chatgpt_spec import FALLBACK_ABLATIONS, _openai_json  # noqa: E402
 from scripts.casmi_loop.submit import write_kaggle_credentials  # noqa: E402
 
@@ -41,28 +41,44 @@ def test_slot1_fallback_is_top_peaks_128():
     assert fb["config_patch"] == {"TOP_PEAKS": 128}
 
 
-def test_entropy_weight_is_li_fiehn_075():
-    assert ENTROPY_WEIGHT == 0.75
+def test_entropy_weight_is_pure_entropy():
+    assert ENTROPY_WEIGHT == 1.0
+
+
+def test_hybrid_at_weight_one_equals_entropy():
+    mz_a = np.array([100.0, 120.0, 150.0], dtype=np.float64)
+    int_a = np.array([1.0, 0.5, 0.2], dtype=np.float64)
+    mz_b = np.array([100.01, 120.0, 180.0], dtype=np.float64)
+    int_b = np.array([0.9, 0.4, 0.3], dtype=np.float64)
+    ent = entropy_similarity(mz_a, int_a, mz_b, int_b, tol=0.02)
+    hyb = hybrid_similarity(
+        mz_a, int_a, mz_b, int_b, 200.0, 200.0, tol=0.02, entropy_weight=1.0
+    )
+    mixed = hybrid_similarity(
+        mz_a, int_a, mz_b, int_b, 200.0, 200.0, tol=0.02, entropy_weight=0.75
+    )
+    assert hyb == pytest.approx(ent, abs=1e-12)
+    assert mixed != pytest.approx(hyb, abs=1e-12)
 
 
 def test_peak_mz_tol_is_flash_entropy_002():
     assert PEAK_MZ_TOL == 0.02
 
 
-def test_slot2_fallback_is_peak_mz_002():
+def test_slot2_fallback_is_entropy_pure():
     fb = FALLBACK_ABLATIONS[1]
-    assert fb["hypothesis"] == "H-peak-mz"
-    assert fb["config_patch"] == {"PEAK_MZ_TOL": 0.02}
+    assert fb["hypothesis"] == "H-entropy-pure"
+    assert fb["config_patch"] == {"ENTROPY_WEIGHT": 1.0}
 
 
 def test_intensity_floor_is_flash_entropy_001():
     assert INTENSITY_FLOOR == 0.01
 
 
-def test_slot3_fallback_is_peak_mz_002():
+def test_slot3_fallback_is_min_sim():
     fb = FALLBACK_ABLATIONS[2]
-    assert fb["hypothesis"] == "H-peak-mz"
-    assert fb["config_patch"] == {"PEAK_MZ_TOL": 0.02}
+    assert fb["hypothesis"] == "H-min-sim"
+    assert fb["config_patch"] == {"MIN_SIMILARITY": 0.12}
 
 
 def test_clean_spectrum_drops_sub_percent_noise():
