@@ -5070,6 +5070,33 @@
       "config_patch": {
         "PEAK_MZ_TOL": 0.02
       }
+    },
+    {
+      "day": "2026-11-06",
+      "cycle": 3,
+      "tag": "2026-11-06_cycle03",
+      "started_at": "2026-11-06T12:03:20.662129Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-11-06_cycle03 H-sim-gate MIN_SIMILARITY 0.05\u21920.12 (decoy admission floor)",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-sim-gate",
+      "artifacts": {
+        "research": "Research/2026-11-06_cycle03_methods.md",
+        "analysis": "Analysis/2026-11-06_cycle03_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-11-06_cycle03_hypotheses.md",
+        "spec": "Specs/2026-11-06_cycle03_next_submission_spec.md"
+      },
+      "config_patch": {
+        "MIN_SIMILARITY": 0.12
+      },
+      "notes": "Chicago 06:01 CST. UTC Kaggle quota 2/5 (Actions 42147867834 \u2192 58042294 H-top-peaks kernel v198 at 02:22Z; Actions 42203446292 \u2192 58055178 H-peak-mz kernel v199 at 10:50Z). Chicago-clock submits since 01:00 CST: 1/5. Could not write ~/.kaggle/kaggle.json or kernels push: KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent. LB top Shehab 0.54, Savko 0.53, Parfionov 0.52. Implemented MIN_SIMILARITY 0.05\u21920.12 + Actions slot-2/3 fallbacks \u2192 H-sim-gate. Pytest passed. Merge before next unused casmi-loop hour or it wastes UTC ticket 3 on PEAK_MZ_TOL=0.02."
     }
   ]
 }
