@@ -5044,6 +5044,33 @@
       "config_patch": {
         "TOP_PEAKS": 128
       }
+    },
+    {
+      "day": "2026-11-06",
+      "cycle": 2,
+      "tag": "2026-11-06_cycle02",
+      "started_at": "2026-11-06T09:01:03.177Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-11-06_cycle02 H-sim-gate MIN_SIMILARITY 0.05\u21920.12 (decoy admission floor)",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-sim-gate",
+      "artifacts": {
+        "research": "Research/2026-11-06_cycle02_methods.md",
+        "analysis": "Analysis/2026-11-06_cycle02_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-11-06_cycle02_hypotheses.md",
+        "spec": "Specs/2026-11-06_cycle02_next_submission_spec.md"
+      },
+      "config_patch": {
+        "MIN_SIMILARITY": 0.12
+      },
+      "notes": "Chicago 03:01 CST. UTC quota 1/5 (Actions 42147867834 \u2192 58042294 H-top-peaks kernel v198 at 02:22Z). Chicago-clock submits since 01:00 CST: 0/5. Hourly casmi-loop 03:00\u201309:00 UTC did not fire. write_kaggle_credentials() False; no kernels push. Implemented MIN_SIMILARITY 0.05\u21920.12 and retargeted slot-2/3 fallbacks. Merge before next unused casmi-loop hour (~10:00 UTC) or ticket 2 is another PEAK_MZ_TOL=0.02 no-op. Drafts #77/#78 already specified the same ablation and stayed unmerged."
     }
   ]
 }
