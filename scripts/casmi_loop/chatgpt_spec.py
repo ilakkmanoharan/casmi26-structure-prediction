@@ -27,9 +27,9 @@ FALLBACK_ABLATIONS = [
         "config_patch": {"TOP_PEAKS": 128},
     },
     {
-        "hypothesis": "H-peak-mz",
-        "summary": "Widen fragment m/z pairing to Flash Entropy / ms_entropy / matchms default 0.02 Da (20 mDa).",
-        "config_patch": {"PEAK_MZ_TOL": 0.02},
+        "hypothesis": "H-sim-gate",
+        "summary": "Raise hybrid-similarity floor so weak decoys stop filling the MRR@25 list.",
+        "config_patch": {"MIN_SIMILARITY": 0.12},
     },
     {
         "hypothesis": "H-peak-mz",
@@ -38,8 +38,8 @@ FALLBACK_ABLATIONS = [
     },
     {
         "hypothesis": "H-peaks",
-        "summary": "Keep more peaks and slightly lower min similarity.",
-        "config_patch": {"TOP_PEAKS": 160, "MIN_SIMILARITY": 0.05},
+        "summary": "Keep more peaks after the 1% intensity floor (do not reset MIN_SIMILARITY).",
+        "config_patch": {"TOP_PEAKS": 160},
     },
     {
         "hypothesis": "H-domain",
