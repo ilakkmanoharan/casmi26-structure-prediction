@@ -5122,6 +5122,32 @@
       "config_patch": {
         "TOP_PEAKS": 128
       }
+    },
+    {
+      "day": "2026-11-07",
+      "cycle": 2,
+      "tag": "2026-11-07_cycle02",
+      "started_at": "2026-11-07T09:07:21.891748Z",
+      "runner": "cursor_cloud",
+      "submitted": false,
+      "skipped_reason": "cloud_env_missing_kaggle_secrets",
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": null,
+      "submit_ref": null,
+      "kaggle_id": null,
+      "message": "2026-11-07_cycle02 H-entropy-pure ENTROPY_WEIGHT=1.0",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-entropy-pure",
+      "artifacts": {
+        "research": "Research/2026-11-07_cycle02_methods.md",
+        "analysis": "Analysis/2026-11-07_cycle02_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-11-07_cycle02_hypotheses.md",
+        "spec": "Specs/2026-11-07_cycle02_next_submission_spec.md"
+      },
+      "config_patch": {
+        "ENTROPY_WEIGHT": 1.0
+      }
     }
   ]
 }
