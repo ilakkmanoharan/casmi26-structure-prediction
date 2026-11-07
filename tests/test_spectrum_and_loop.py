@@ -15,7 +15,13 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from casmi26.config import ENTROPY_WEIGHT, INTENSITY_FLOOR, PEAK_MZ_TOL, TOP_PEAKS  # noqa: E402
+from casmi26.config import (  # noqa: E402
+    ENTROPY_WEIGHT,
+    INTENSITY_FLOOR,
+    MIN_SIMILARITY,
+    PEAK_MZ_TOL,
+    TOP_PEAKS,
+)
 from casmi26.spectrum import clean_spectrum  # noqa: E402
 from scripts.casmi_loop.chatgpt_spec import FALLBACK_ABLATIONS, _openai_json  # noqa: E402
 from scripts.casmi_loop.submit import write_kaggle_credentials  # noqa: E402
@@ -49,10 +55,20 @@ def test_peak_mz_tol_is_flash_entropy_002():
     assert PEAK_MZ_TOL == 0.02
 
 
-def test_slot2_fallback_is_peak_mz_002():
+def test_min_similarity_is_decoy_gate():
+    assert MIN_SIMILARITY == 0.12
+
+
+def test_slot2_fallback_is_sim_gate_012():
     fb = FALLBACK_ABLATIONS[1]
-    assert fb["hypothesis"] == "H-peak-mz"
-    assert fb["config_patch"] == {"PEAK_MZ_TOL": 0.02}
+    assert fb["hypothesis"] == "H-sim-gate"
+    assert fb["config_patch"] == {"MIN_SIMILARITY": 0.12}
+
+
+def test_slot4_fallback_does_not_reset_min_similarity():
+    fb = FALLBACK_ABLATIONS[3]
+    assert fb["config_patch"] == {"TOP_PEAKS": 160}
+    assert "MIN_SIMILARITY" not in fb["config_patch"]
 
 
 def test_intensity_floor_is_flash_entropy_001():
