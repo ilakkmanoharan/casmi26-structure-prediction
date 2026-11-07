@@ -5175,6 +5175,32 @@
         "MAX_PEAKS_ABOVE_PRECURSOR_DA": -1.6
       },
       "notes": "Chicago 06:01 CST cycle03. Quota 2/5 UTC (Actions 42330089426 -> 58076904, 42361044458 -> 58088101); Chicago-clock since 01:00 CST at least 1/5. Could not write ~/.kaggle/kaggle.json: KAGGLE_USERNAME/KAGGLE_KEY/KAGGLE_API_TOKEN absent in Cloud env. Implemented H-precursor-cut (ms_entropy precursor-1.6 Da) and rebuilt kernel; casmi-loop should kernels push + competition_submit_code."
+    },
+    {
+      "day": "2026-11-07",
+      "cycle": 3,
+      "tag": "2026-11-07_cycle03",
+      "started_at": "2026-11-07T16:28:33.417133Z",
+      "runner": "github_actions",
+      "submitted": true,
+      "skipped_reason": null,
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": 204,
+      "submit_ref": "58098508",
+      "kaggle_id": 58098508,
+      "message": "2026-11-07_cycle03 grok-docs",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-grok",
+      "artifacts": {
+        "research": "Research/2026-11-07_cycle03_methods.md",
+        "analysis": "Analysis/2026-11-07_cycle03_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-11-07_cycle03_hypotheses.md",
+        "spec": "Specs/2026-11-07_cycle03_next_submission_spec.md"
+      },
+      "config_patch": {
+        "MAX_PEAKS_ABOVE_PRECURSOR_DA": -1.6
+      }
     }
   ]
 }
