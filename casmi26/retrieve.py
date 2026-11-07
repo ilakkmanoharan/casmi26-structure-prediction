@@ -171,6 +171,7 @@ def _poisoned_inchikeys_for_molecule(
             precursor_mz=row.precursor_mz,
             intensity_floor=cfg.intensity_floor,
             top_peaks=cfg.top_peaks,
+            remove_above_precursor_da=cfg.max_peaks_above_precursor_da,
         )
         if len(mz) < 2:
             continue
@@ -221,6 +222,7 @@ def aggregate_molecule_candidates(
             precursor_mz=row.precursor_mz,
             intensity_floor=cfg.intensity_floor,
             top_peaks=cfg.top_peaks,
+            remove_above_precursor_da=cfg.max_peaks_above_precursor_da,
         )
         if len(mz) < 2:
             continue
@@ -371,6 +373,7 @@ def aggregate_molecule_candidates(
             precursor_mz=best_row.precursor_mz,
             intensity_floor=cfg.intensity_floor,
             top_peaks=cfg.top_peaks,
+            remove_above_precursor_da=cfg.max_peaks_above_precursor_da,
         )
         hits = retrieve_for_spectrum(
             index,

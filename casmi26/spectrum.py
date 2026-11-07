@@ -14,7 +14,7 @@ def clean_spectrum(
     intensity_floor: float = 0.001,
     top_peaks: int = 64,
     merge_tol: float = 0.005,
-    remove_above_precursor_da: float = 2.0,
+    remove_above_precursor_da: float = -1.6,
     sqrt_intensity: bool = True,
 ) -> Tuple[np.ndarray, np.ndarray]:
     """Return cleaned (mz, intensity) float32 arrays sorted by mz."""

@@ -180,6 +180,7 @@ def build_index_from_train(
                 precursor_mz=float(precursor[i]),
                 intensity_floor=cfg.intensity_floor,
                 top_peaks=cfg.top_peaks,
+                remove_above_precursor_da=cfg.max_peaks_above_precursor_da,
             )
             if len(mz) < 3:
                 keep_mask.append(False)

@@ -32,9 +32,9 @@ FALLBACK_ABLATIONS = [
         "config_patch": {"PEAK_MZ_TOL": 0.02},
     },
     {
-        "hypothesis": "H-peak-mz",
-        "summary": "Widen fragment m/z pairing to Flash Entropy / ms_entropy / matchms default 0.02 Da (20 mDa).",
-        "config_patch": {"PEAK_MZ_TOL": 0.02},
+        "hypothesis": "H-precursor-cut",
+        "summary": "Drop precursor-window ions (m/z > precursor − 1.6 Da) as in ms_entropy / Flash Entropy.",
+        "config_patch": {"MAX_PEAKS_ABOVE_PRECURSOR_DA": -1.6},
     },
     {
         "hypothesis": "H-peaks",
@@ -170,9 +170,9 @@ def write_cycle_docs(
         "Return JSON keys: research_md, analysis_md, hypothesis_md, spec_md, "
         "hypothesis_id, message, config_patch (object of EXISTING casmi26/config.py "
         "CONSTANT names only — allowed: MASS_TOL_PPM, MASS_TOL_PPM_BACKFILL, "
-        "PEAK_MZ_TOL, TOP_PEAKS, INTENSITY_FLOOR, TOP_K_SPECTRA_PER_QUERY, "
-        "TOP_CANDIDATES_PER_SPECTRUM, MIN_SIMILARITY, ENTROPY_WEIGHT, "
-        "EXCLUDE_EXACT_DUPLICATES, MAX_CANDIDATES — numeric/bool values), notes. "
+        "PEAK_MZ_TOL, TOP_PEAKS, INTENSITY_FLOOR, MAX_PEAKS_ABOVE_PRECURSOR_DA, "
+        "TOP_K_SPECTRA_PER_QUERY, TOP_CANDIDATES_PER_SPECTRUM, MIN_SIMILARITY, "
+        "ENTROPY_WEIGHT, EXCLUDE_EXACT_DUPLICATES, MAX_CANDIDATES — numeric/bool values), notes. "
         "Do not invent new constant names."
         % (day.isoformat(), slot, prior_score, briefing[:12000])
     )

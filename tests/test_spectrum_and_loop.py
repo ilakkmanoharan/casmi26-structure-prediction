@@ -15,7 +15,13 @@ import pytest
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 
-from casmi26.config import ENTROPY_WEIGHT, INTENSITY_FLOOR, PEAK_MZ_TOL, TOP_PEAKS  # noqa: E402
+from casmi26.config import (  # noqa: E402
+    ENTROPY_WEIGHT,
+    INTENSITY_FLOOR,
+    MAX_PEAKS_ABOVE_PRECURSOR_DA,
+    PEAK_MZ_TOL,
+    TOP_PEAKS,
+)
 from casmi26.spectrum import clean_spectrum  # noqa: E402
 from scripts.casmi_loop.chatgpt_spec import FALLBACK_ABLATIONS, _openai_json  # noqa: E402
 from scripts.casmi_loop.submit import write_kaggle_credentials  # noqa: E402
@@ -59,10 +65,39 @@ def test_intensity_floor_is_flash_entropy_001():
     assert INTENSITY_FLOOR == 0.01
 
 
-def test_slot3_fallback_is_peak_mz_002():
+def test_slot3_fallback_is_precursor_cut():
     fb = FALLBACK_ABLATIONS[2]
-    assert fb["hypothesis"] == "H-peak-mz"
-    assert fb["config_patch"] == {"PEAK_MZ_TOL": 0.02}
+    assert fb["hypothesis"] == "H-precursor-cut"
+    assert fb["config_patch"] == {"MAX_PEAKS_ABOVE_PRECURSOR_DA": -1.6}
+
+
+def test_precursor_cut_matches_ms_entropy_minus_1_6():
+    assert MAX_PEAKS_ABOVE_PRECURSOR_DA == -1.6
+
+
+def test_clean_spectrum_drops_precursor_window_ions():
+    mz = np.array([100.0, 150.0, 198.5, 200.0, 201.5], dtype=np.float64)
+    inten = np.array([0.4, 0.8, 0.5, 1.0, 0.3], dtype=np.float64)
+    kept, _ = clean_spectrum(
+        mz,
+        inten,
+        precursor_mz=200.0,
+        top_peaks=128,
+        intensity_floor=0.0,
+        sqrt_intensity=False,
+        remove_above_precursor_da=-1.6,
+    )
+    assert np.all(kept <= 200.0 - 1.6 + 1e-6)
+    assert np.any(np.isclose(kept, 150.0))
+    assert not np.any(np.isclose(kept, 198.5))
+    assert not np.any(np.isclose(kept, 200.0))
+
+
+def test_runconfig_wires_precursor_cut():
+    from casmi26.config import RunConfig
+
+    cfg = RunConfig()
+    assert cfg.max_peaks_above_precursor_da == -1.6
 
 
 def test_clean_spectrum_drops_sub_percent_noise():

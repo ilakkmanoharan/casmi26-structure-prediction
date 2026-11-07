@@ -18,7 +18,9 @@ MASS_TOL_PPM_BACKFILL = 80.0
 PEAK_MZ_TOL = 0.02
 TOP_PEAKS = 128
 INTENSITY_FLOOR = 0.01
-MAX_PEAKS_ABOVE_PRECURSOR_DA = 2.0
+# ms_entropy / Flash Entropy: drop ions with m/z > precursor − 1.6 Da.
+# Encoded as mz <= precursor_mz + MAX_PEAKS_ABOVE_PRECURSOR_DA.
+MAX_PEAKS_ABOVE_PRECURSOR_DA = -1.6
 TOP_K_SPECTRA_PER_QUERY = 120
 TOP_CANDIDATES_PER_SPECTRUM = 25
 MIN_SIMILARITY = 0.05
@@ -71,6 +73,7 @@ class RunConfig:
     peak_mz_tol: float = PEAK_MZ_TOL
     top_peaks: int = TOP_PEAKS
     intensity_floor: float = INTENSITY_FLOOR
+    max_peaks_above_precursor_da: float = MAX_PEAKS_ABOVE_PRECURSOR_DA
     top_k_spectra: int = TOP_K_SPECTRA_PER_QUERY
     top_candidates_per_spectrum: int = TOP_CANDIDATES_PER_SPECTRUM
     min_similarity: float = MIN_SIMILARITY
