@@ -27,19 +27,19 @@ FALLBACK_ABLATIONS = [
         "config_patch": {"TOP_PEAKS": 128},
     },
     {
-        "hypothesis": "H-peak-mz",
-        "summary": "Widen fragment m/z pairing to Flash Entropy / ms_entropy / matchms default 0.02 Da (20 mDa).",
-        "config_patch": {"PEAK_MZ_TOL": 0.02},
+        "hypothesis": "H-entropy-pure",
+        "summary": "Drop the 0.25 modified-cosine mix; score with pure Li/Fiehn entropy similarity now that Flash Entropy 20 mDa pairing is live.",
+        "config_patch": {"ENTROPY_WEIGHT": 1.0},
     },
     {
-        "hypothesis": "H-peak-mz",
-        "summary": "Widen fragment m/z pairing to Flash Entropy / ms_entropy / matchms default 0.02 Da (20 mDa).",
-        "config_patch": {"PEAK_MZ_TOL": 0.02},
+        "hypothesis": "H-sim-gate",
+        "summary": "Raise min hybrid/entropy similarity floor from 0.05 to 0.12 so weak decoys stop filling MRR@25.",
+        "config_patch": {"MIN_SIMILARITY": 0.12},
     },
     {
-        "hypothesis": "H-peaks",
-        "summary": "Keep more peaks and slightly lower min similarity.",
-        "config_patch": {"TOP_PEAKS": 160, "MIN_SIMILARITY": 0.05},
+        "hypothesis": "H-mass-tight",
+        "summary": "Tighten primary structure-level mass window from 35 ppm to 15 ppm (ibnmarzuk/timsTOF-class).",
+        "config_patch": {"MASS_TOL_PPM": 15.0},
     },
     {
         "hypothesis": "H-domain",
