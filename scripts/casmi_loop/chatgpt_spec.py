@@ -27,14 +27,14 @@ FALLBACK_ABLATIONS = [
         "config_patch": {"TOP_PEAKS": 128},
     },
     {
-        "hypothesis": "H-peak-mz",
-        "summary": "Widen fragment m/z pairing to Flash Entropy / ms_entropy / matchms default 0.02 Da (20 mDa).",
-        "config_patch": {"PEAK_MZ_TOL": 0.02},
+        "hypothesis": "H-mass-tight",
+        "summary": "Tighten primary structure-level mass window to 15 ppm (ibnmarzuk / timsTOF-class precursor filter); keep 80 ppm backfill.",
+        "config_patch": {"MASS_TOL_PPM": 15.0},
     },
     {
-        "hypothesis": "H-peak-mz",
-        "summary": "Widen fragment m/z pairing to Flash Entropy / ms_entropy / matchms default 0.02 Da (20 mDa).",
-        "config_patch": {"PEAK_MZ_TOL": 0.02},
+        "hypothesis": "H-mass-tight",
+        "summary": "Tighten primary structure-level mass window to 15 ppm (ibnmarzuk / timsTOF-class precursor filter); keep 80 ppm backfill.",
+        "config_patch": {"MASS_TOL_PPM": 15.0},
     },
     {
         "hypothesis": "H-peaks",
