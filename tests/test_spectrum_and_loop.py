@@ -22,7 +22,7 @@ from scripts.casmi_loop.submit import write_kaggle_credentials  # noqa: E402
 
 
 def test_top_peaks_restored_to_fragment_ladder():
-    assert TOP_PEAKS == 128
+    assert TOP_PEAKS == 256
 
 
 def test_clean_spectrum_keeps_requested_top_peaks():
@@ -30,9 +30,9 @@ def test_clean_spectrum_keeps_requested_top_peaks():
     mz = np.linspace(50.0, 249.0, n)
     inten = np.linspace(0.01, 1.0, n)
     five_mz, _ = clean_spectrum(mz, inten, precursor_mz=260.0, top_peaks=5, intensity_floor=0.0)
-    many_mz, _ = clean_spectrum(mz, inten, precursor_mz=260.0, top_peaks=128, intensity_floor=0.0)
+    many_mz, _ = clean_spectrum(mz, inten, precursor_mz=260.0, top_peaks=256, intensity_floor=0.0)
     assert len(five_mz) == 5
-    assert len(many_mz) == 128
+    assert len(many_mz) == 200  # input has 200 peaks; 256-cap must not clip
     assert len(many_mz) > len(five_mz)
 
 
@@ -59,10 +59,16 @@ def test_intensity_floor_is_flash_entropy_001():
     assert INTENSITY_FLOOR == 0.01
 
 
-def test_slot3_fallback_is_peak_mz_002():
+def test_slot3_fallback_is_top_peaks_256():
     fb = FALLBACK_ABLATIONS[2]
-    assert fb["hypothesis"] == "H-peak-mz"
-    assert fb["config_patch"] == {"PEAK_MZ_TOL": 0.02}
+    assert fb["hypothesis"] == "H-top-peaks-256"
+    assert fb["config_patch"] == {"TOP_PEAKS": 256}
+
+
+def test_slot4_fallback_is_sim_gate():
+    fb = FALLBACK_ABLATIONS[3]
+    assert fb["hypothesis"] == "H-sim-gate"
+    assert fb["config_patch"] == {"MIN_SIMILARITY": 0.12}
 
 
 def test_clean_spectrum_drops_sub_percent_noise():
