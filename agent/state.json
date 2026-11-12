@@ -5644,6 +5644,33 @@
       "config_patch": {
         "MAX_PEAKS_ABOVE_PRECURSOR_DA": -1.6
       }
+    },
+    {
+      "day": "2026-11-12",
+      "cycle": 4,
+      "tag": "2026-11-12_cycle04",
+      "started_at": "2026-11-12T23:43:41.441039Z",
+      "runner": "github_actions",
+      "submitted": true,
+      "skipped_reason": null,
+      "kernel": "ilakkmanoharan/casmi26-retrieval-symbolic-v01",
+      "kernel_version": 223,
+      "submit_ref": "58287564",
+      "kaggle_id": 58287564,
+      "message": "2026-11-12_cycle04 H-peaks",
+      "prior_public_score": 0.143,
+      "public_score": null,
+      "hypothesis": "H-peaks",
+      "artifacts": {
+        "research": "Research/2026-11-12_cycle04_methods.md",
+        "analysis": "Analysis/2026-11-12_cycle04_submission.md",
+        "hypothesis": "Hypothesis analysis/2026-11-12_cycle04_hypotheses.md",
+        "spec": "Specs/2026-11-12_cycle04_next_submission_spec.md"
+      },
+      "config_patch": {
+        "TOP_PEAKS": 160,
+        "MIN_SIMILARITY": 0.05
+      }
     }
   ]
 }
