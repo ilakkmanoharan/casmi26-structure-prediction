@@ -1,0 +1,15 @@
+# Analysis 2026-11-16_cycle03
+
+Prior score: 0.143
+
+Recent Kaggle submissions (newest first):
+- id=58425100 score=None status=SubmissionStatus.COMPLETE desc=2026-11-16_cycle02 H-peak-mz
+- id=58410289 score=None status=SubmissionStatus.COMPLETE desc=2026-11-16_cycle01 H-top-peaks
+- id=58402398 score=None status=SubmissionStatus.COMPLETE desc=2026-11-15_cycle04 H-peaks
+- id=58392765 score=None status=SubmissionStatus.COMPLETE desc=2026-11-15_cycle03 H-precursor-cut
+- id=58378102 score=None status=SubmissionStatus.COMPLETE desc=2026-11-15_cycle02 H-peak-mz
+- id=58363831 score=None status=SubmissionStatus.COMPLETE desc=2026-11-15_cycle01 H-top-peaks
+- id=58356471 score=None status=SubmissionStatus.COMPLETE desc=2026-11-14_cycle04 H-peaks
+- id=58349455 score=None status=SubmissionStatus.COMPLETE desc=2026-11-14_cycle03 H-precursor-cut
+- id=58339681 score=None status=SubmissionStatus.COMPLETE desc=2026-11-14_cycle02 H-peak-mz
+- id=58328477 score=None status=SubmissionStatus.COMPLETE desc=2026-11-14_cycle01 H-top-peaks
