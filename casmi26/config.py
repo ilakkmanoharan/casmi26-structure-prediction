@@ -16,7 +16,7 @@ MAX_CANDIDATES = 25
 MASS_TOL_PPM = 35.0
 MASS_TOL_PPM_BACKFILL = 80.0
 PEAK_MZ_TOL = 0.02
-TOP_PEAKS = 160
+TOP_PEAKS = 128
 INTENSITY_FLOOR = 0.01
 # ms_entropy / Flash Entropy: drop ions with m/z > precursor − 1.6 Da.
 # Encoded as mz <= precursor_mz + MAX_PEAKS_ABOVE_PRECURSOR_DA.
